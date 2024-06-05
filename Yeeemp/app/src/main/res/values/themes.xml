@@ -1,0 +1,84 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Yeeemp" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_white</item>
+        <item name="colorPrimaryVariant">@color/pegasko_light</item>
+        <item name="colorOnPrimary">@color/pegasko_white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_black</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark</item>
+        <item name="colorOnSecondary">@color/pegasko_black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/pegasko_white</item>
+        <item name="statusBarBackground">@color/pegasko_white</item>
+        <item name="statusBarForeground">@color/pegasko_light</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Yeeemp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_white</item>
+        <item name="colorPrimaryVariant">@color/pegasko_light</item>
+        <item name="colorOnPrimary">@color/pegasko_black</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_black</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark</item>
+        <item name="colorOnSecondary">@color/pegasko_black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/pegasko_white</item>
+        <item name="statusBarBackground">@color/pegasko_white</item>
+        <item name="statusBarForeground">@color/pegasko_light</item>
+    </style>
+
+    <!-- Green application theme. -->
+    <style name="Base.Theme.Yeeemp.Green" parent="Base.Theme.Yeeemp">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_green</item>
+        <item name="colorPrimaryVariant">@color/pegasko_dark_green</item>
+        <item name="colorOnPrimary">@color/pegasko_black</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_black</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark</item>
+        <item name="colorOnSecondary">@color/pegasko_black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/pegasko_green</item>
+        <item name="statusBarBackground">@color/pegasko_green</item>
+        <item name="statusBarForeground">@color/pegasko_dark_green</item>
+    </style>
+
+    <!-- Blue application theme. -->
+    <style name="Base.Theme.Yeeemp.Blue" parent="Base.Theme.Yeeemp">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_blue</item>
+        <item name="colorPrimaryVariant">@color/pegasko_dark_blue</item>
+        <item name="colorOnPrimary">@color/pegasko_black</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_black</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark</item>
+        <item name="colorOnSecondary">@color/pegasko_black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/pegasko_blue</item>
+        <item name="statusBarBackground">@color/pegasko_blue</item>
+        <item name="statusBarForeground">@color/pegasko_dark_blue</item>
+    </style>
+
+    <!--    &lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--    <style name="action_bar_green" parent="Theme.Material3.DayNight">-->
+    <!--        &lt;!&ndash; Status bar color. &ndash;&gt;-->
+    <!--        <item name="android:statusBarColor">@color/pegasko_green</item>-->
+    <!--        <item name="statusBarBackground">@color/pegasko_black</item>-->
+    <!--        <item name="statusBarForeground">@color/pegasko_blue</item>-->
+
+    <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--    </style>-->
+
+</resources>

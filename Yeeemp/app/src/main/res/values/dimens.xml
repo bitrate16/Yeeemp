@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="pegasko_list_item_size">80dp</dimen>
+    <dimen name="pegasko_list_item_padding">8dp</dimen>
+    <dimen name="pegasko_list_item_title">24sp</dimen>
+    <dimen name="pegasko_list_item_plus">32sp</dimen>
+
+    <dimen name="pegasko_list_item_content_margin">2dp</dimen>
+</resources>

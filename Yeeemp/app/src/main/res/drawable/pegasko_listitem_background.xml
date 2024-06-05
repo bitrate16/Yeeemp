@@ -1,0 +1,16 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners
+        android:topRightRadius="0dp"
+        android:bottomRightRadius="0dp"
+        android:bottomLeftRadius="0dp" />
+
+    <solid
+        android:color="@color/pegasko_dark" />
+
+    <stroke
+        android:width="@dimen/pegasko_list_item_content_margin"
+        android:color="@color/pegasko_black" />
+
+</shape>

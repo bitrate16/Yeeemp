@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pegasko_list_item_size"
+    android:background="@android:color/transparent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/queue_list_item__queue_item"
+        android:layout_margin="@dimen/pegasko_list_item_content_margin"
+        android:layout_weight="1"
+        android:background="@color/pegasko_green"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/queue_list_item__queue_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="TextView"
+            android:textAlignment="viewStart"
+            android:textColor="@color/pegasko_black"
+            android:textSize="@dimen/pegasko_list_item_title"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/pegasko_list_item_size"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/pegasko_list_item_content_margin"
+        android:background="@color/pegasko_green"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="+"
+            android:textAlignment="viewStart"
+            android:textColor="@color/pegasko_black"
+            android:textSize="@dimen/pegasko_list_item_plus"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
