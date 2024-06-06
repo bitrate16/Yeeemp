@@ -17,14 +17,12 @@
 package art.pegasko.yeeemp.impl;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.EventMaker;
-import art.pegasko.yeeemp.base.Queue;
 
 public class EventMakerImpl implements EventMaker {
     public static final String TAG = EventMakerImpl.class.getSimpleName();
@@ -36,22 +34,51 @@ public class EventMakerImpl implements EventMaker {
     }
 
     @Override
-    public Event createInQueue(Queue queue) {
+    public Event create() {
         synchronized (this.db) {
             try {
                 ContentValues cv = new ContentValues();
-                cv.put("queue_id", queue.getId());
+                cv.put("id", (Integer) null);
                 long rowId = db.insertOrThrow("event", null, cv);
                 return new EventImpl(
                     this.db,
-                    queue,
                     (int) rowId
                 );
             } catch (SQLiteException e) {
-                Log.w(TAG, e);
+                Log.wtf(TAG, e);
             }
 
             return null;
+        }
+    }
+
+    @Override
+    public void delete(Event event) {
+        synchronized (this.db) {
+            try {
+                // Delete queue <-> event
+                db.delete(
+                    "queue_event",
+                    "event_id = ?",
+                    new String[] { Integer.toString(event.getId()) }
+                );
+
+                // Delete event <-> tag
+                db.delete(
+                    "event_tag",
+                    "event_id = ?",
+                    new String[] { Integer.toString(event.getId()) }
+                );
+
+                // Delete event
+                db.delete(
+                    "event",
+                    "id = ?",
+                    new String[] { Integer.toString(event.getId()) }
+                );
+            } catch (SQLiteException e) {
+                Log.wtf(TAG, e);
+            }
         }
     }
 }

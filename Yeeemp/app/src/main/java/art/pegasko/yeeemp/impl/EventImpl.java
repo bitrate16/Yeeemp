@@ -25,19 +25,16 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import art.pegasko.yeeemp.base.Event;
-import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Tag;
 
 public class EventImpl implements Event {
     public static final String TAG = EventImpl.class.getSimpleName();
 
     private final SQLiteDatabase db;
-    private final Queue queue;
     private final int id;
 
-    protected EventImpl(SQLiteDatabase db, Queue queue, int id) {
+    protected EventImpl(SQLiteDatabase db, int id) {
         this.db = db;
-        this.queue = queue;
         this.id = id;
     }
 
@@ -52,8 +49,8 @@ public class EventImpl implements Event {
             Cursor cursor = db.query(
                 "event",
                 new String[] { "timestamp" },
-                "query_id = ? AND id = ?",
-                new String[] { Integer.toString(queue.getId()), Integer.toString(this.getId()) },
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) },
                 null,
                 null,
                 null
@@ -82,11 +79,11 @@ public class EventImpl implements Event {
     }
 
     @Override
-    public String getMessage() {
+    public String getComment() {
         synchronized (this.db) {
             Cursor cursor = db.query(
                 "event",
-                new String[] { "message" },
+                new String[] { "comment" },
                 "id = ?",
                 new String[] { Integer.toString(this.getId()) },
                 null,
@@ -103,10 +100,10 @@ public class EventImpl implements Event {
     }
 
     @Override
-    public void setMessage(String message) {
+    public void setComment(String comment) {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
-            cv.put("message", message);
+            cv.put("comment", comment);
             db.update(
                 "event",
                 cv,
@@ -148,7 +145,7 @@ public class EventImpl implements Event {
                 cv.put("tag_id", tag.getId());
                 db.insertOrThrow("event_tag", null, cv);
             } catch (SQLiteException e) {
-                Log.w(TAG, e);
+                Log.wtf(TAG, e);
             }
         }
     }
@@ -169,7 +166,7 @@ public class EventImpl implements Event {
                     new String[] { Integer.toString(this.getId()), Integer.toString(tag.getId()) }
                 );
             } catch (SQLiteException e) {
-                Log.w(TAG, e);
+                Log.wtf(TAG, e);
             }
         }
     }
@@ -197,7 +194,6 @@ public class EventImpl implements Event {
             while (cursor.moveToNext()) {
                 tags[index++] = new TagImpl(
                     this.db,
-                    this.queue,
                     cursor.getInt(0)
                 );
             }
@@ -210,12 +206,12 @@ public class EventImpl implements Event {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Queue{id=");
+        sb.append("Event{id=");
         sb.append(this.getId());
         sb.append(",timestamp=");
         sb.append(this.getTimestamp());
-        sb.append(",message=");
-        sb.append(this.getMessage());
+        sb.append(",comment=");
+        sb.append(this.getComment());
         sb.append("}");
         return sb.toString();
     }

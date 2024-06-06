@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package art.pegasko.yeeemp.base;
+package art.pegasko.yeeemp.ui.activity;
 
-public interface QueueMaker {
-    Queue getById(int id);
-    Queue create();
-    void delete(Queue queue);
-    Queue[] list();
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Utils {
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static String formatTs(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_FORMAT);
+        return sdf.format(timestamp);
+    }
 }

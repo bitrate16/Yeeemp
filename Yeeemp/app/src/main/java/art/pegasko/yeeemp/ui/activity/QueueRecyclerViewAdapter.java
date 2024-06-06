@@ -1,7 +1,25 @@
+/**
+ * Copyright 2024 pegasko
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,19 +28,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import art.pegasko.yeeemp.R;
+import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
-import art.pegasko.yeeemp.base.QueueMaker;
 import art.pegasko.yeeemp.base.Wrapper;
-import art.pegasko.yeeemp.impl.EventImpl;
+import art.pegasko.yeeemp.databinding.QueueListItemBinding;
 
-public class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAdapter.ViewHolder> {
+class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAdapter.ViewHolder> {
     public static final String TAG = QueueRecyclerViewAdapter.class.getSimpleName();
 
     private Queue[] queues;
@@ -41,20 +57,20 @@ public class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.queueName.setText(queues[position].getName());
-        viewHolder.queueItem.setOnLongClickListener((View view) -> {
-            PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.queueItem);
+        viewHolder.getBinding().queueListItemTitle.setText(queues[position].getName());
+
+        viewHolder.getBinding().queueListItemItem.setOnLongClickListener((View view) -> {
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.getBinding().queueListItemItem);
             popupMenu.getMenuInflater().inflate(R.menu.queue_list_item_action_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
                 if (menuItem.getItemId() == R.id.queue_list_item_action_menu_delete) {
                     new AlertDialog.Builder(view.getContext())
-                        .setTitle("Delete entry")
+                        .setTitle("Delete queue")
                         .setMessage("Are you sure you want to delete this queue?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-//                                Wrapper.getQueueMaker().delete
-                                Log.e(TAG, "Not implemented action");
-                            }
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            Wrapper.getQueueMaker().delete(queues[position]);
+
+                            reloadItems();
                         })
                         .setNegativeButton(android.R.string.no, null)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -85,6 +101,30 @@ public class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecycler
 
             return true;
         });
+        viewHolder.getBinding().queueListItemItem.setOnClickListener((View view) -> {
+            Bundle extra = new Bundle();
+            extra.putInt("queue_id", queues[position].getId());
+
+            Intent intent = new Intent(view.getContext(), EventListActivity.class);
+            intent.putExtras(extra);
+
+            view.getContext().startActivity(intent);
+        });
+
+        viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
+
+        viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
+            Log.w(TAG, "TODO: Open editor");
+
+            Event event = Wrapper.getEventMaker().create();
+            event.setTimestamp(System.currentTimeMillis());
+            event.setComment("Lobster number " + System.currentTimeMillis());
+            queues[position].addEvent(event);
+
+            Log.w(TAG, "Create: " + event.toString() + " in " + queues[position]);
+
+            reloadItems();
+        });
     }
 
     @Override
@@ -93,18 +133,15 @@ public class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecycler
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView queueName;
-        private View queueItem;
+        private QueueListItemBinding binding;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            queueItem = itemView.findViewById(R.id.queue_list_item__queue_item);
-            queueName = (TextView) itemView.findViewById(R.id.queue_list_item__queue_title);
+            this.binding = QueueListItemBinding.bind(itemView);
         }
 
-        public TextView getQueueName() {
-            return queueName;
+        public QueueListItemBinding getBinding() {
+            return this.binding;
         }
     }
 

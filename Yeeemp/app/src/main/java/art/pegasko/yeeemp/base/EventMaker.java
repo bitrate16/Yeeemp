@@ -17,5 +17,6 @@
 package art.pegasko.yeeemp.base;
 
 public interface EventMaker {
-    Event createInQueue(Queue queue);
+    Event create();
+    void delete(Event event);
 }

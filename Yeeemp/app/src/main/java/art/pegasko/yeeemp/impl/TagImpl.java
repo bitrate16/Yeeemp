@@ -28,12 +28,10 @@ public class TagImpl implements Tag {
     public static final String TAG = TagImpl.class.getSimpleName();
 
     private final SQLiteDatabase db;
-    private final Queue queue;
     private final int id;
 
-    protected TagImpl(SQLiteDatabase db, Queue queue, int id) {
+    protected TagImpl(SQLiteDatabase db, int id) {
         this.db = db;
-        this.queue = queue;
         this.id = id;
     }
 
@@ -48,8 +46,8 @@ public class TagImpl implements Tag {
             Cursor cursor = db.query(
                 "tag",
                 new String[] { "name" },
-                "query_id = ? AND id = ?",
-                new String[] { Integer.toString(queue.getId()), Integer.toString(this.getId()) },
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) },
                 null,
                 null,
                 null

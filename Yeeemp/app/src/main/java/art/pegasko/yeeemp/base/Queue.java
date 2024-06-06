@@ -21,6 +21,7 @@ public interface Queue {
     String getName();
     void setName(String name);
     Event[] getEvents();
+    int getEventCount();
     void addEvent(Event event);
     void removeEvent(Event event);
     Tag[] getGlobalTags();

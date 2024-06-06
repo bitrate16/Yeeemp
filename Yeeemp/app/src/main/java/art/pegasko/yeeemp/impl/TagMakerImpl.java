@@ -41,7 +41,7 @@ public class TagMakerImpl implements TagMaker {
             Cursor cursor = db.query(
                 "tag",
                 new String[] { "id", "name" },
-                "query_id = ? AND name = ?",
+                "queue_id = ? AND name = ?",
                 new String[] { Integer.toString(queue.getId()), name },
                 null,
                 null,
@@ -50,12 +50,11 @@ public class TagMakerImpl implements TagMaker {
             if (Utils.findResult(cursor)) {
                 return new TagImpl(
                     db,
-                    queue,
                     cursor.getInt(0)
                 );
             }
         } catch (SQLiteException e) {
-            Log.w(TAG, e);
+            Log.wtf(TAG, e);
         }
 
         return null;
@@ -69,7 +68,7 @@ public class TagMakerImpl implements TagMaker {
             cv.put("name", name);
             db.insertOrThrow("tag", null, cv);
         } catch (SQLiteException e) {
-            Log.w(TAG, e);
+            Log.wtf(TAG, e);
             return false;
         }
         return true;

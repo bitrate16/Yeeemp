@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Tag;
+import kotlin.NotImplementedError;
 
 public class QueueImpl implements Queue {
     public static final String TAG = QueueImpl.class.getSimpleName();
@@ -81,16 +82,62 @@ public class QueueImpl implements Queue {
 
     @Override
     public Event[] getEvents() {
-        return new Event[0];
+        synchronized (this.db) {
+            Cursor cursor = db.query(
+                "queue_event",
+                new String[] { "event_id" },
+                "queue_id = ?",
+                new String[] { Integer.toString(this.getId()) },
+                null,
+                null,
+                null
+            );
+
+            if (cursor == null) {
+                return new Event[0];
+            }
+
+            Event[] events = new Event[cursor.getCount()];
+
+            int index = 0;
+            while (cursor.moveToNext()) {
+                events[index++] = new EventImpl(
+                    this.db,
+                    cursor.getInt(0)
+                );
+            }
+
+            return events;
+        }
+    }
+
+    @Override
+    public int getEventCount() {
+        synchronized (this.db) {
+            Cursor cursor = db.query(
+                "queue_event",
+                new String[] { "count(*)" },
+                "queue_id = ?",
+                new String[] { Integer.toString(this.getId()) },
+                null,
+                null,
+                null
+            );
+
+            if (!Utils.findResult(cursor))
+                return 0;
+
+            return cursor.getInt(0);
+        }
     }
 
     /** !synchronized */
     protected boolean hasEvent(Event event) {
         synchronized (this.db) {
             Cursor cursor = db.query(
-                "query_event",
+                "queue_event",
                 new String[] { "1" },
-                "query_id = ? AND event_id = ?",
+                "queue_id = ? AND event_id = ?",
                 new String[] { Integer.toString(this.getId()), Integer.toString(event.getId()) },
                 null,
                 null,
@@ -137,7 +184,7 @@ public class QueueImpl implements Queue {
                     new String[] { Integer.toString(this.getId()), Integer.toString(event.getId()) }
                 );
             } catch (SQLiteException e) {
-                Log.w(TAG, e);
+                Log.wtf(TAG, e);
             }
         }
     }
@@ -165,7 +212,6 @@ public class QueueImpl implements Queue {
             while (cursor.moveToNext()) {
                 tags[index++] = new TagImpl(
                     this.db,
-                    this,
                     cursor.getInt(0)
                 );
             }

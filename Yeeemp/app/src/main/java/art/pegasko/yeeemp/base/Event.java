@@ -20,8 +20,8 @@ public interface Event {
     int getId();
     long getTimestamp();
     void setTimestamp(long timestamp);
-    String getMessage();
-    void setMessage(String message);
+    String getComment();
+    void setComment(String comment);
     void addTag(Tag tag);
     void removeTag(Tag tag);
     Tag[] getTags();

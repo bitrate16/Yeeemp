@@ -22,12 +22,12 @@
     android:background="@android:color/transparent">
 
     <LinearLayout
-        android:id="@+id/queue_list_item__item"
+        android:id="@+id/event_list_item__item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/pegasko_list_item_content_margin"
         android:layout_weight="1"
-        android:background="@color/pegasko_green"
+        android:background="@color/pegasko_blue"
         android:gravity="center"
         android:padding="@dimen/pegasko_list_item_main_padding">
 
@@ -38,7 +38,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/queue_list_item__title"
+                android:id="@+id/event_list_item__timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/pegasko_list_item_title_margin"
@@ -49,28 +49,15 @@
                 android:textSize="@dimen/pegasko_list_item_title"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/queue_list_item__stats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/pegasko_list_item_subtitle_margin"
-                android:fontFamily="monospace"
-                android:text="TextView"
-                android:textAlignment="viewStart"
-                android:textColor="@color/pegasko_black"
-                android:textSize="@dimen/pegasko_list_item_subtitle"
-                android:textStyle="bold" />
-
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/queue_list_item__plus"
         android:layout_width="@dimen/pegasko_list_item_plus_width"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/pegasko_list_item_content_margin"
-        android:background="@color/pegasko_green"
+        android:background="@color/pegasko_blue"
         android:gravity="center">
 
         <TextView

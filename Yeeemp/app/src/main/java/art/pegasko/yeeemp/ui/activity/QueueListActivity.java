@@ -22,26 +22,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Wrapper;
-import art.pegasko.yeeemp.databinding.ActivityMainBinding;
+import art.pegasko.yeeemp.databinding.ActivityQueueListBinding;
 
 import art.pegasko.yeeemp.R;
-import art.pegasko.yeeemp.impl.EventImpl;
 import art.pegasko.yeeemp.impl.Init;
 
-public class MainActivity extends AppCompatActivity {
-    public static final String TAG = MainActivity.class.getSimpleName();
+public class QueueListActivity extends AppCompatActivity {
+    public static final String TAG = QueueListActivity.class.getSimpleName();
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private ActivityQueueListBinding binding;
     private RecyclerView queueList;
     private QueueRecyclerViewAdapter queueListAdapter;
 
@@ -57,19 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
         Init.initDB(getApplicationContext());
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityQueueListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
 
+        /* Queue list */
         queueListAdapter = new QueueRecyclerViewAdapter();
-        queueList = findViewById(R.id.content_main__queue_list);
+        queueList = findViewById(R.id.content_queue_list__list);
         queueList.setLayoutManager(new LinearLayoutManager(this));
         queueList.setAdapter(queueListAdapter);
-
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
@@ -79,25 +72,23 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Queue q = Wrapper.getQueueMaker().create();
-                q.setName("New Queue");
-                Log.w(TAG, "Create: " + q.toString());
+        binding.fab.setOnClickListener(view -> {
+            Queue q = Wrapper.getQueueMaker().create();
+            q.setName("New Queue");
+            Log.w(TAG, "Create: " + q.toString());
 
-                updateList();
-            }
+            updateList();
         });
 
         /* Fill lists */
         updateList();
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        return NavigationUI.navigateUp(navController, appBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* Ekchualle we returned from somewhere */
+        updateList();
+    }
 }
