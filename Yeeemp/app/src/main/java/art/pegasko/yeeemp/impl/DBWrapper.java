@@ -31,7 +31,7 @@ import art.pegasko.yeeemp.base.TagMaker;
 
 public class DBWrapper extends Wrapper {
     public static final String TAG = DBWrapper.class.getSimpleName();
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public DBWrapper(Context context) {
         this.db = openDB(context);

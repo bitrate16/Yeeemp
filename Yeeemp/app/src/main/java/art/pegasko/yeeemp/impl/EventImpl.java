@@ -172,6 +172,21 @@ public class EventImpl implements Event {
     }
 
     @Override
+    public void removeTags() {
+        synchronized (this.db) {
+            try {
+                db.delete(
+                    "event_tag",
+                    "event_id = ?",
+                    new String[] { Integer.toString(this.getId()) }
+                );
+            } catch (SQLiteException e) {
+                Log.wtf(TAG, e);
+            }
+        }
+    }
+
+    @Override
     public Tag[] getTags() {
         synchronized (this.db) {
             Cursor cursor = db.query(

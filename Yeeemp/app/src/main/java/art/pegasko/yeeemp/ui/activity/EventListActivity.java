@@ -16,15 +16,22 @@
 
 package art.pegasko.yeeemp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.time.Duration;
+import java.util.concurrent.ScheduledFuture;
 
 import art.pegasko.yeeemp.R;
 import art.pegasko.yeeemp.base.Event;
@@ -78,12 +85,34 @@ public class EventListActivity extends AppCompatActivity {
         binding = ActivityEventListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " / " + queue.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         /* Queue list */
         eventListAdapter = new EventRecyclerViewAdapter(queue);
         eventList = findViewById(R.id.content_event_list__list);
         eventList.setLayoutManager(new LinearLayoutManager(this));
         eventList.setAdapter(eventListAdapter);
+
+//        /* Swipe delete */
+//        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//                Snackbar.make(viewHolder.itemView, "undo delete event", 5000)
+//                    .setAnchorView(R.id.fab)
+//                    .setAction("Action", (View view) -> {
+//
+//                    }).show();
+//
+//                ScheduledFuture<?> future = eventListAdapter.scheduleDeleteAt(viewHolder.getAdapterPosition());
+//            }
+//        };
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
@@ -94,19 +123,44 @@ public class EventListActivity extends AppCompatActivity {
             return true;
         });
         binding.fab.setOnClickListener(view -> {
-            Log.w(TAG, "TODO: Open editor");
+            Bundle extra = new Bundle();
+            extra.putInt("queue_id", this.queue.getId());
 
-            Event event = Wrapper.getEventMaker().create();
-            event.setTimestamp(System.currentTimeMillis());
-            event.setComment("Lobster number " + System.currentTimeMillis());
-            queue.addEvent(event);
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
+            intent.putExtras(extra);
 
-            Log.w(TAG, "Create: " + event.toString() + " in " + queue);
+            view.getContext().startActivity(intent);
 
-            updateList();
+//            Log.w(TAG, "TODO: Open editor");
+//
+//            Event event = Wrapper.getEventMaker().create();
+//            event.setTimestamp(System.currentTimeMillis());
+//            event.setComment("Lobster number " + System.currentTimeMillis());
+//            queue.addEvent(event);
+//
+//            Log.w(TAG, "Create: " + event.toString() + " in " + queue);
+
+//            updateList();
         });
 
         /* Fill lists */
         updateList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        /* Ekchualle we returned from somewhere */
+        updateList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

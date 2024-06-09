@@ -1,35 +1,57 @@
-<!--
-    Copyright 2024 pegasko
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
--->
-
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="pegasko_list_item_size">80dp</dimen>
-    <dimen name="pegasko_list_item_padding">8dp</dimen>
+    <dimen name="queue_list_item_size">80dp</dimen>
+    <dimen name="queue_list_item_padding">8dp</dimen>
 
-    <dimen name="pegasko_list_item_main_padding">8dp</dimen>
+    <dimen name="queue_list_item_main_padding">8dp</dimen>
 
-    <dimen name="pegasko_list_item_title">24sp</dimen>
-    <dimen name="pegasko_list_item_title_margin">4dp</dimen>
+    <dimen name="queue_list_item_title_text">24sp</dimen>
+    <dimen name="queue_list_item_title_margin">4dp</dimen>
 
-    <dimen name="pegasko_list_item_subtitle">12sp</dimen>
-    <dimen name="pegasko_list_item_subtitle_margin">2dp</dimen>
+    <dimen name="queue_list_item_subtitle">12sp</dimen>
+    <dimen name="queue_list_item_subtitle_margin">2dp</dimen>
 
-    <dimen name="pegasko_list_item_plus">32sp</dimen>
-    <dimen name="pegasko_list_item_plus_width">80dp</dimen>
+    <dimen name="queue_list_item_plus_text">32sp</dimen>
+    <dimen name="queue_list_item_plus_width">80dp</dimen>
 
-    <dimen name="pegasko_list_item_content_margin">2dp</dimen>
+    <dimen name="queue_list_item_content_margin">2dp</dimen>
+
+    <dimen name="event_list_item_timestamp_text">16sp</dimen>
+    <dimen name="event_list_item_timestamp_margin">4dp</dimen>
+
+    <dimen name="event_list_item_comment_text">12sp</dimen>
+    <dimen name="event_list_item_comment_margin">4dp</dimen>
+    <dimen name="event_list_item_comment_padding">4dp</dimen>
+
+    <dimen name="event_list_item_plus">32sp</dimen>
+    <dimen name="event_list_item_plus_width">80dp</dimen>
+
+    <dimen name="event_list_item_tags_margin">0dp</dimen>
+    <dimen name="event_list_item_tags_padding">0dp</dimen>
+
+    <dimen name="event_list_item_tag_padding">4dp</dimen>
+    <dimen name="event_list_item_tag_margin">0dp</dimen>
+
+    <dimen name="event_list_item_content_margin">2dp</dimen>
+
+    <dimen name="box_radius">2dp</dimen>
+    <dimen name="box_stroke">2dp</dimen>
+
+    <dimen name="tag_divider_width">4dp</dimen>
+    <dimen name="tag_divider_height">4dp</dimen>
+
+    <dimen name="event_edit_box_margin">2dp</dimen>
+
+    <dimen name="event_edit_hint_margin">0dp</dimen>
+    <dimen name="event_edit_hint_padding_left">2dp</dimen>
+    <dimen name="event_edit_hint_text">16sp</dimen>
+
+    <dimen name="event_edit_timestamp_margin">8dp</dimen>
+    <dimen name="event_edit_timestamp_padding">4dp</dimen>
+    <dimen name="event_edit_timestamp_text">24sp</dimen>
+
+    <dimen name="event_edit_comment_margin">8dp</dimen>
+    <dimen name="event_edit_comment_padding">4dp</dimen>
+    <dimen name="event_edit_comment_text">12sp</dimen>
 </resources>

@@ -14,20 +14,33 @@
  * limitations under the License.
  */
 
- package art.pegasko.yeeemp;
+package art.pegasko.yeeemp.okand.base;
 
-import org.junit.Test;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import art.pegasko.yeeemp.base.Tag;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+public class Event {
+    private int id;
+    private String comment;
+    private List<Tag> tags;
+
+    public Event() {
+        this.id = -1;
+        this.comment = null;
+        this.tags = new ArrayList<Tag>();
+    }
+
+    void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public static Event get(int id) {
+        return Potato.getInstance().getById(id);
     }
 }

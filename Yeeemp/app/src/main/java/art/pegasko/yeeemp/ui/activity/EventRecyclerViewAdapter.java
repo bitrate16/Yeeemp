@@ -17,25 +17,30 @@
 package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.text.InputType;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 import art.pegasko.yeeemp.R;
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
+import art.pegasko.yeeemp.base.Tag;
 import art.pegasko.yeeemp.base.Wrapper;
 import art.pegasko.yeeemp.databinding.EventListItemBinding;
-import art.pegasko.yeeemp.databinding.QueueListItemBinding;
 
 class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder> {
     public static final String TAG = EventRecyclerViewAdapter.class.getSimpleName();
@@ -62,7 +67,27 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        viewHolder.getBinding().eventListItemTags.removeAllViews();
+        Tag[] tags = this.events[position].getTags();
+        Log.w(TAG, "Tags: " + tags.length);
+        for (Tag tag: tags) {
+            TextView tagView = (TextView) (
+                LayoutInflater
+                    .from(viewHolder.getBinding().getRoot().getContext())
+                    .inflate(R.layout.event_list_item_tag, null, false)
+            );
+
+            tagView.setText(tag.getName());
+            viewHolder.getBinding().eventListItemTags.addView(tagView);
+        }
+
         viewHolder.getBinding().eventListItemTimestamp.setText(Utils.formatTs(events[position].getTimestamp()));
+
+        String comment = events[position].getComment();
+        if (comment != null && !comment.isEmpty()) {
+            viewHolder.getBinding().eventListItemComment.setVisibility(View.VISIBLE);
+            viewHolder.getBinding().eventListItemComment.setText(comment);
+        }
 
         viewHolder.getBinding().eventListItemItem.setOnLongClickListener((View view) -> {
             PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.getBinding().eventListItemItem);
@@ -88,8 +113,16 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
 
             return true;
         });
+        viewHolder.getBinding().eventListItemItem.setOnClickListener((View view) -> {
+            Bundle extra = new Bundle();
+            extra.putInt("event_id", this.events[position].getId());
+            extra.putInt("queue_id", this.queue.getId());
 
-//        viewHolder.queueStats.setText(Integer.toString(events[position].getEventCount()));
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
+            intent.putExtras(extra);
+
+            view.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -114,4 +147,19 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
         this.events = this.queue.getEvents();
         this.notifyDataSetChanged();
     }
+
+//    public ScheduledFuture<?> scheduleDeleteAt(int position) {
+//        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+//        ScheduledFuture<?> future = scheduledExecutorService.schedule(() -> {
+//            try {
+//                Wrapper.getEventMaker().delete(this.events[position]);
+//            } catch (Exception e) {
+//                Log.wtf(TAG, e);
+//            }
+//        }, 5, TimeUnit.SECONDS);
+//
+//        // Hide item from list
+//
+//        return future;
+//    }
 }

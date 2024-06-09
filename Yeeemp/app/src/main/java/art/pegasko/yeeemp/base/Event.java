@@ -24,5 +24,6 @@ public interface Event {
     void setComment(String comment);
     void addTag(Tag tag);
     void removeTag(Tag tag);
+    void removeTags();
     Tag[] getTags();
 }

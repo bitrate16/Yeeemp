@@ -17,12 +17,14 @@
 package art.pegasko.yeeemp.impl;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.EventMaker;
+import art.pegasko.yeeemp.base.Queue;
 
 public class EventMakerImpl implements EventMaker {
     public static final String TAG = EventMakerImpl.class.getSimpleName();
@@ -31,6 +33,31 @@ public class EventMakerImpl implements EventMaker {
 
     public EventMakerImpl(SQLiteDatabase db) {
         this.db = db;
+    }
+
+    @Override
+    public Event getById(int id) {
+        synchronized (this.db) {
+            try {
+                Cursor cursor = db.query(
+                    "event",
+                    new String[] { "1" },
+                    "id = ?",
+                    new String[] { Integer.toString(id) },
+                    null,
+                    null,
+                    null
+                );
+
+                if (Utils.findResult(cursor))
+                    return new EventImpl(this.db, id);
+
+            } catch (SQLiteException e) {
+                Log.wtf(TAG, e);
+            }
+
+            return null;
+        }
     }
 
     @Override

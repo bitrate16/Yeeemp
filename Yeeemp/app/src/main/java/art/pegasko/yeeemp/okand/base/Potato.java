@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
- package art.pegasko.yeeemp;
+ package art.pegasko.yeeemp.okand.base;
 
-import org.junit.Test;
+public abstract class Potato {
+    private static Potato instance;
 
-import static org.junit.Assert.*;
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public static Potato getInstance() {
+        return Potato.instance;
     }
+
+    public void setInstance(Potato instance) {
+        Potato.instance = instance;
+    }
+
+    public abstract Event getById(int id);
+    public abstract void save(Event container);
+    public abstract void delete(Event container);
 }

@@ -90,7 +90,7 @@ public class QueueImpl implements Queue {
                 new String[] { Integer.toString(this.getId()) },
                 null,
                 null,
-                null
+                "event_id desc"
             );
 
             if (cursor == null) {

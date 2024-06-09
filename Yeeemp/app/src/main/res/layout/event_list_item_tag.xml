@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/event_list_item_tag_padding"
+    android:layout_margin="@dimen/event_list_item_tag_margin"
+    android:background="@color/pegasko_black"
+    android:textColor="@color/pegasko_white"
+    android:text="sample_tag" >
+
+</TextView>

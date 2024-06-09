@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activity.QueueListActivity">
+    tools:context=".ui.activity.EventEditActivity" >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_event_list"/>
+    <include android:id="@+id/event_edit_content" layout="@layout/content_event_edit"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -31,7 +31,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:backgroundTint="@color/pegasko_blue" />
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:backgroundTint="@color/pegasko_red" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

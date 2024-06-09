@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import art.pegasko.yeeemp.R;
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
+import art.pegasko.yeeemp.base.Tag;
 import art.pegasko.yeeemp.base.Wrapper;
 import art.pegasko.yeeemp.databinding.QueueListItemBinding;
 
@@ -114,16 +115,35 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
 
         viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
-            Log.w(TAG, "TODO: Open editor");
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
+            view.getContext().startActivity(intent);
 
-            Event event = Wrapper.getEventMaker().create();
-            event.setTimestamp(System.currentTimeMillis());
-            event.setComment("Lobster number " + System.currentTimeMillis());
-            queues[position].addEvent(event);
-
-            Log.w(TAG, "Create: " + event.toString() + " in " + queues[position]);
-
-            reloadItems();
+//            Log.w(TAG, "TODO: Open editor");
+//
+//            Event event = Wrapper.getEventMaker().create();
+//            event.setTimestamp(System.currentTimeMillis());
+//            event.setComment("Lobster number " + System.currentTimeMillis() + "\n" + "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+//            queues[position].addEvent(event);
+//
+//            Tag[] tags = new Tag[] {
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_cum"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_poo"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_fart"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_penis"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_dick"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_cock"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_zalupa"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_ololo"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_owo"),
+//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_uwu"),
+//            };
+//            for (Tag tag: tags) {
+//                event.addTag(tag);
+//            }
+//
+//            Log.w(TAG, "Create: " + event.toString() + " in " + queues[position]);
+//
+//            reloadItems();
         });
     }
 

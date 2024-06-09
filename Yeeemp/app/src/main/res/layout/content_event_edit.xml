@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pegasko_black"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/event_edit_box_margin"
+        android:id="@+id/event_edit_container_timestamp"
+        android:background="@drawable/box_red" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/event_edit_hint_margin"
+            android:paddingLeft="@dimen/event_edit_hint_padding_left"
+            android:text="Time"
+            android:textSize="@dimen/event_edit_hint_text"
+            android:textColor="@color/pegasko_black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/event_edit_timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/event_edit_timestamp_margin"
+            android:background="@drawable/box_black"
+            android:gravity="center"
+            android:padding="@dimen/event_edit_timestamp_padding"
+            android:text="Timestamp"
+            android:textColor="@color/pegasko_white"
+            android:textSize="@dimen/event_edit_timestamp_text"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/event_edit_box_margin"
+        android:background="@drawable/box_red" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/event_edit_hint_margin"
+            android:paddingLeft="@dimen/event_edit_hint_padding_left"
+            android:text="Comment"
+            android:textSize="@dimen/event_edit_hint_text"
+            android:textColor="@color/pegasko_black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/event_edit_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/event_edit_comment_margin"
+            android:background="@drawable/box_black"
+            android:cursorVisible="true"
+            android:gravity="start|left"
+            android:inputType="textMultiLine"
+            android:padding="@dimen/event_edit_comment_padding"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:text="lonk message (very very very long, trust me, i'm sure that is is very loooooooooooooooonk so will fit many lines and still be very very loooooooooooooooooooooooooooooooooonk"
+            android:textColor="@color/pegasko_white"
+            android:textSize="@dimen/event_edit_comment_text">
+
+        </EditText>
+
+    </LinearLayout>
+
+</LinearLayout>
