@@ -116,8 +116,9 @@ public class EventListActivity extends AppCompatActivity {
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(view, "Create Event", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).setAction("Action",
-                                                                                                        null
+            Snackbar.make(view, "Create Event", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).setAction(
+                "Action",
+                null
             ).show();
 
             return true;

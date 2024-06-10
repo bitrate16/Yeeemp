@@ -137,7 +137,6 @@ public class EventEditActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         if (this.eventContainer.timestamp != 0)
             binding.eventEditContent.eventEditTimestamp.setText(Utils.formatTs(this.eventContainer.timestamp));
         if (this.eventContainer.comment != null)
@@ -250,7 +249,7 @@ public class EventEditActivity extends AppCompatActivity {
             String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(",");
             tags = Utils.orderedDeduplicateIgnoreCaseAndTrim(tags);
 
-            EventEditActivity.this.binding.eventEditContent.eventEditTags.setText(String.join(", ", tags));
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.setText(String.join(", ", tags) + ", ");
             EventEditActivity.this.binding.eventEditContent.eventEditTags.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
         });
 

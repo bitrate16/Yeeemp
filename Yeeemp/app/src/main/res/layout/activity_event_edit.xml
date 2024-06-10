@@ -17,12 +17,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/pegasko_white"
-            android:background="@color/pegasko_dark" />
+            android:background="@color/pegasko_dark"
+            app:titleTextColor="@color/pegasko_white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include android:id="@+id/event_edit_content" layout="@layout/content_event_edit"/>
+    <include android:id="@+id/event_edit_content" layout="@layout/content_event_edit" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
