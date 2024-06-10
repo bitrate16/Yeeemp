@@ -129,7 +129,7 @@ public class DBWrapper extends Wrapper {
             try {
                 new File(context.getFilesDir(), DB_PATH).delete();
             } catch (Exception e) {
-                Log.wtf(DBWrapper.TAG, e);
+                Log.wtf(TAG, e);
             }
         }
 

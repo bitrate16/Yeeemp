@@ -18,6 +18,8 @@ package art.pegasko.yeeemp.base;
 
 public interface EventMaker {
     Event create();
+
     void delete(Event event);
+
     Event getById(int id);
 }

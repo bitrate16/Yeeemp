@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package art.pegasko.yeeemp.okand.impl;
+package art.pegasko.yeeemp.okand.impl;
 
 import art.pegasko.yeeemp.okand.base.Event;
 import art.pegasko.yeeemp.okand.base.Potato;

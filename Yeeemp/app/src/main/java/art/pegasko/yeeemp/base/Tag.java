@@ -18,5 +18,6 @@ package art.pegasko.yeeemp.base;
 
 public interface Tag {
     int getId();
+
     String getName();
 }

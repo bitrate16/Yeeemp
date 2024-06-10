@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package art.pegasko.yeeemp.okand.base;
+package art.pegasko.yeeemp.okand.base;
 
 public abstract class Potato {
     private static Potato instance;
@@ -28,6 +28,8 @@ public abstract class Potato {
     }
 
     public abstract Event getById(int id);
+
     public abstract void save(Event container);
+
     public abstract void delete(Event container);
 }

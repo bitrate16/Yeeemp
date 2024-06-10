@@ -17,6 +17,5 @@
 package art.pegasko.yeeemp.base;
 
 public interface TagMaker {
-    /** Get or Create distinct name Tag in Queue */
     Tag getOrCreateInQueue(Queue queue, String name);
 }

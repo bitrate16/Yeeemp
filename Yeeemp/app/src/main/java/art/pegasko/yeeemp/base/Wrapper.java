@@ -40,6 +40,8 @@ public abstract class Wrapper {
     }
 
     public abstract QueueMaker queueMaker();
+
     public abstract EventMaker eventMaker();
+
     public abstract TagMaker tagMaker();
 }

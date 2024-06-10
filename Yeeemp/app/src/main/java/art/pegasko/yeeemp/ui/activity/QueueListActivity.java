@@ -17,7 +17,9 @@
 package art.pegasko.yeeemp.ui.activity;
 
 import android.os.Bundle;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -66,16 +68,20 @@ public class QueueListActivity extends AppCompatActivity {
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(view, "Create Queue", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
-                .setAction("Action", null).show();
+            Snackbar.make(
+                view,
+                "Create Queue",
+                Snackbar.LENGTH_LONG
+            ).setAnchorView(R.id.fab).setAction(
+                "Action",
+                null
+            ).show();
 
             return true;
         });
         binding.fab.setOnClickListener(view -> {
             Queue q = Wrapper.getQueueMaker().create();
             q.setName("New Queue");
-            Log.w(TAG, "Create: " + q.toString());
 
             updateList();
         });

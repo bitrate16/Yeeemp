@@ -18,7 +18,10 @@ package art.pegasko.yeeemp.base;
 
 public interface QueueMaker {
     Queue getById(int id);
+
     Queue create();
+
     void delete(Queue queue);
+
     Queue[] list();
 }

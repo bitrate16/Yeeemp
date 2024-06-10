@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package art.pegasko.yeeemp.ui.activity;
+package art.pegasko.yeeemp.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,9 +24,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TimeUtils;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -39,12 +44,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Tag;
+import art.pegasko.yeeemp.base.TagStat;
 import art.pegasko.yeeemp.databinding.ActivityEventEditBinding;
 
 import art.pegasko.yeeemp.R;
@@ -59,8 +68,11 @@ public class EventEditActivity extends AppCompatActivity {
     private Event event;
     private EventContainer eventContainer;
     private ActivityEventEditBinding binding;
+    private TagStat[] tagStat;
 
-    /** Store values for edited or new event */
+    /**
+     * Store values for edited or new event
+     */
     private static class EventContainer {
         public String comment;
         public long timestamp;
@@ -82,21 +94,33 @@ public class EventEditActivity extends AppCompatActivity {
         // Get Queue ID from Intent
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.e(TAG, "Missing Intent arguments (queue_id)");
+            Log.e(
+                TAG,
+                "Missing Intent arguments (queue_id)"
+            );
             finish();
             return;
         }
 
-        int queue_id = extras.getInt("queue_id", -1);
+        int queue_id = extras.getInt(
+            "queue_id",
+            -1
+        );
         if (queue_id == -1) {
-            Log.e(TAG, "Missing Intent arguments (queue_id)");
+            Log.e(
+                TAG,
+                "Missing Intent arguments (queue_id)"
+            );
             finish();
             return;
         }
 
         queue = Wrapper.getQueueMaker().getById(queue_id);
         if (queue == null) {
-            Log.e(TAG, "Missing Intent arguments (queue_id)");
+            Log.e(
+                TAG,
+                "Missing Intent arguments (queue_id)"
+            );
             finish();
             return;
         }
@@ -107,12 +131,15 @@ public class EventEditActivity extends AppCompatActivity {
         // Get Event ID from Intent (optional)
         extras = getIntent().getExtras();
         if (extras != null) {
-            int event_id = extras.getInt("event_id", -1);
+            int event_id = extras.getInt(
+                "event_id",
+                -1
+            );
             if (event_id != -1) {
                 this.event = Wrapper.getEventMaker().getById(event_id);
                 this.eventContainer.timestamp = this.event.getTimestamp();
                 this.eventContainer.comment = this.event.getComment();
-                for (Tag tag: this.event.getTags()) {
+                for (Tag tag : this.event.getTags()) {
                     this.eventContainer.tags.add(tag.getName());
                 }
             }
@@ -121,7 +148,8 @@ public class EventEditActivity extends AppCompatActivity {
         binding = ActivityEventEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " / " + (event == null ? "Create" : "Edit") + " Event");
+        getSupportActionBar().setTitle(
+            getSupportActionBar().getTitle() + " / " + (event == null ? "Create" : "Edit") + " Event");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -130,6 +158,17 @@ public class EventEditActivity extends AppCompatActivity {
             binding.eventEditContent.eventEditTimestamp.setText(Utils.formatTs(this.eventContainer.timestamp));
         if (this.eventContainer.comment != null)
             binding.eventEditContent.eventEditComment.setText(this.eventContainer.comment);
+
+        /* Comment Listeners */
+
+        // Request focus on click
+        this.binding.eventEditContent.eventEditContainerComment.setOnClickListener((View view) -> {
+            this.binding.eventEditContent.eventEditComment.requestFocus();
+            this.binding.eventEditContent.eventEditComment.setSelection(
+                EventEditActivity.this.binding.eventEditContent.eventEditComment.getText().length());
+        });
+
+        /* Timestamp Listeners */
 
         binding.eventEditContent.eventEditContainerTimestamp.setOnClickListener((View view) -> {
             Date date;
@@ -153,21 +192,34 @@ public class EventEditActivity extends AppCompatActivity {
                             newDate.setSeconds(0);
 
                             this.eventContainer.timestamp = newDate.getTime();
-                            binding.eventEditContent.eventEditTimestamp.setText(Utils.formatTs(this.eventContainer.timestamp));
+                            binding.eventEditContent.eventEditTimestamp.setText(
+                                Utils.formatTs(this.eventContainer.timestamp));
                         },
-                        date.getHours(), date.getMinutes(), true
+                        date.getHours(),
+                        date.getMinutes(),
+                        true
                     );
                     timePickerDialog.show();
-                }, date.getYear() + 1900, date.getMonth(), date.getDate()
+                },
+                date.getYear() + 1900,
+                date.getMonth(),
+                date.getDate()
             );
             datePickerDialog.show();
         });
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(view, "Save Event", Snackbar.LENGTH_LONG)
+            Snackbar.make(
+                    view,
+                    "Save Event",
+                    Snackbar.LENGTH_LONG
+                )
                 .setAnchorView(R.id.fab)
-                .setAction("Action", null).show();
+                .setAction(
+                    "Action",
+                    null
+                ).show();
 
             return true;
         });
@@ -175,20 +227,75 @@ public class EventEditActivity extends AppCompatActivity {
             // Finalize values
             this.eventContainer.comment = this.binding.eventEditContent.eventEditComment.getText().toString().trim();
 
+            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(
+                ",");
+            tags = Utils.orderedDeduplicateIgnoreCaseAndTrim(tags);
+            this.eventContainer.tags.clear();
+            for (String tag : tags) {
+                this.eventContainer.tags.add(tag);
+            }
+
             // Fill event
+            boolean hasEvent = this.event != null;
             if (this.event == null)
                 this.event = Wrapper.getEventMaker().create();
 
             this.event.setTimestamp(this.eventContainer.timestamp);
             this.event.removeTags();
-            for (String tag: this.eventContainer.tags) {
-                this.event.addTag(Wrapper.getTagMaker().getOrCreateInQueue(this.queue, tag));
+            for (String tag : this.eventContainer.tags) {
+                this.event.addTag(Wrapper.getTagMaker().getOrCreateInQueue(
+                    this.queue,
+                    tag
+                ));
             }
             this.event.setComment(this.eventContainer.comment);
+
+            if (!hasEvent) {
+                this.queue.addEvent(event);
+            }
 
             finish();
         });
 
+        /* Tags list + input */
+        this.tagStat = this.queue.getGlobalTags();
+
+        ArrayAdapter<TagStat> adapter = new EventEditTagsAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            0,
+            new ArrayList<>(Arrays.asList(this.tagStat))
+        );
+        this.binding.eventEditContent.eventEditTags.setAdapter(adapter);
+        this.binding.eventEditContent.eventEditTags.setThreshold(1);
+        this.binding.eventEditContent.eventEditTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        this.binding.eventEditContent.eventEditTags.setOnItemClickListener((parent, view, position, id) -> {
+            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(
+                ",");
+            tags = Utils.orderedDeduplicateIgnoreCaseAndTrim(tags);
+
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.setText(String.join(
+                ", ",
+                tags
+            ));
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.setSelection(
+                EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+        });
+
+        // Request focus on click
+        this.binding.eventEditContent.eventEditContainerTags.setOnClickListener((View view) -> {
+            this.binding.eventEditContent.eventEditTags.requestFocus();
+            this.binding.eventEditContent.eventEditTags.setSelection(
+                EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+        });
+
+        // Fill
+        this.binding.eventEditContent.eventEditTags.setText(String.join(
+            ", ",
+            this.eventContainer.tags
+        ));
+        this.binding.eventEditContent.eventEditTags.setSelection(
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
     }
 
     @Override

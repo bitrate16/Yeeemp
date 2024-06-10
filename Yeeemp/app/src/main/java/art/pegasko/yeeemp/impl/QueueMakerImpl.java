@@ -50,11 +50,16 @@ public class QueueMakerImpl implements QueueMaker {
                     null
                 );
 
-                if (Utils.findResult(cursor))
-                    return new QueueImpl(this.db, id);
+                if (Utils.findResult(cursor)) return new QueueImpl(
+                    this.db,
+                    id
+                );
 
             } catch (SQLiteException e) {
-                Log.wtf(TAG, e);
+                Log.wtf(
+                    TAG,
+                    e
+                );
             }
 
             return null;
@@ -66,14 +71,24 @@ public class QueueMakerImpl implements QueueMaker {
         synchronized (this.db) {
             try {
                 ContentValues cv = new ContentValues();
-                cv.put("id", (Integer) null);
-                long rowId = db.insertOrThrow("queue", null, cv);
+                cv.put(
+                    "id",
+                    (Integer) null
+                );
+                long rowId = db.insertOrThrow(
+                    "queue",
+                    null,
+                    cv
+                );
                 return new QueueImpl(
                     this.db,
                     (int) rowId
                 );
             } catch (SQLiteException e) {
-                Log.wtf(TAG, e);
+                Log.wtf(
+                    TAG,
+                    e
+                );
             }
 
             return null;
@@ -117,7 +132,7 @@ public class QueueMakerImpl implements QueueMaker {
 
             // Drop events
             try {
-                for (Event event: queue.getEvents()) {
+                for (Event event : queue.getEvents()) {
                     db.delete(
                         "event",
                         "id = ?",
@@ -125,7 +140,10 @@ public class QueueMakerImpl implements QueueMaker {
                     );
                 }
             } catch (SQLiteException e) {
-                Log.wtf(TAG, e);
+                Log.wtf(
+                    TAG,
+                    e
+                );
                 return;
             }
 
@@ -137,7 +155,10 @@ public class QueueMakerImpl implements QueueMaker {
                     new String[] { Integer.toString(queue.getId()) }
                 );
             } catch (SQLiteException e) {
-                Log.wtf(TAG, e);
+                Log.wtf(
+                    TAG,
+                    e
+                );
             }
 
             // Drop queue
@@ -148,7 +169,10 @@ public class QueueMakerImpl implements QueueMaker {
                     new String[] { Integer.toString(queue.getId()) }
                 );
             } catch (SQLiteException e) {
-                Log.wtf(TAG, e);
+                Log.wtf(
+                    TAG,
+                    e
+                );
             }
         }
     }

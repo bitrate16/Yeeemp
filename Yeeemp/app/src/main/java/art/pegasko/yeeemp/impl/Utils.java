@@ -21,8 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class Utils {
     public static boolean findResult(Cursor cursor) {
-        if (cursor == null)
-            return false;
+        if (cursor == null) return false;
         cursor.moveToFirst();
         return cursor.getCount() != 0;
     }

@@ -18,11 +18,18 @@ package art.pegasko.yeeemp.base;
 
 public interface Queue {
     int getId();
+
     String getName();
+
     void setName(String name);
+
     Event[] getEvents();
+
     int getEventCount();
+
     void addEvent(Event event);
+
     void removeEvent(Event event);
-    Tag[] getGlobalTags();
+
+    TagStat[] getGlobalTags();
 }

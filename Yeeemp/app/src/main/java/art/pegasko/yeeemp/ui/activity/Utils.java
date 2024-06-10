@@ -17,7 +17,10 @@
 package art.pegasko.yeeemp.ui.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Utils {
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -25,5 +28,25 @@ public class Utils {
     public static String formatTs(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat(Utils.DATE_FORMAT);
         return sdf.format(timestamp);
+    }
+
+    public static String[] orderedDeduplicateIgnoreCaseAndTrim(String[] items) {
+        Set<String> duplicates = new HashSet<String>();
+        ArrayList<String> reverseOrderedItems = new ArrayList<String>();
+
+        for (int index = items.length - 1; index >= 0; --index) {
+            String item = items[index].toLowerCase().trim();
+            if (!duplicates.contains(item) && !item.isEmpty()) {
+                duplicates.add(item);
+                reverseOrderedItems.add(item);
+            }
+        }
+
+        String[] finalItems = new String[reverseOrderedItems.size()];
+        for (int index = 0; index < finalItems.length; ++index) {
+            finalItems[finalItems.length - index - 1] = reverseOrderedItems.get(index);
+        }
+
+        return finalItems;
     }
 }

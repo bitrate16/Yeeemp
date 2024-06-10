@@ -49,8 +49,7 @@ public class EventMakerImpl implements EventMaker {
                     null
                 );
 
-                if (Utils.findResult(cursor))
-                    return new EventImpl(this.db, id);
+                if (Utils.findResult(cursor)) return new EventImpl(this.db, id);
 
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
@@ -67,10 +66,7 @@ public class EventMakerImpl implements EventMaker {
                 ContentValues cv = new ContentValues();
                 cv.put("id", (Integer) null);
                 long rowId = db.insertOrThrow("event", null, cv);
-                return new EventImpl(
-                    this.db,
-                    (int) rowId
-                );
+                return new EventImpl(this.db, (int) rowId);
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
             }
@@ -84,25 +80,13 @@ public class EventMakerImpl implements EventMaker {
         synchronized (this.db) {
             try {
                 // Delete queue <-> event
-                db.delete(
-                    "queue_event",
-                    "event_id = ?",
-                    new String[] { Integer.toString(event.getId()) }
-                );
+                db.delete("queue_event", "event_id = ?", new String[] { Integer.toString(event.getId()) });
 
                 // Delete event <-> tag
-                db.delete(
-                    "event_tag",
-                    "event_id = ?",
-                    new String[] { Integer.toString(event.getId()) }
-                );
+                db.delete("event_tag", "event_id = ?", new String[] { Integer.toString(event.getId()) });
 
                 // Delete event
-                db.delete(
-                    "event",
-                    "id = ?",
-                    new String[] { Integer.toString(event.getId()) }
-                );
+                db.delete("event", "id = ?", new String[] { Integer.toString(event.getId()) });
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
             }

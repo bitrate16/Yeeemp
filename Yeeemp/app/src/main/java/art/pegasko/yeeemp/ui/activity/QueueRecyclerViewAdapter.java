@@ -50,7 +50,11 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         View view = (
             LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.queue_list_item, viewGroup, false)
+                .inflate(
+                    R.layout.queue_list_item,
+                    viewGroup,
+                    false
+                )
         );
 
         return new ViewHolder(view);
@@ -61,19 +65,31 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemTitle.setText(queues[position].getName());
 
         viewHolder.getBinding().queueListItemItem.setOnLongClickListener((View view) -> {
-            PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.getBinding().queueListItemItem);
-            popupMenu.getMenuInflater().inflate(R.menu.queue_list_item_action_menu, popupMenu.getMenu());
+            PopupMenu popupMenu = new PopupMenu(
+                view.getContext(),
+                viewHolder.getBinding().queueListItemItem
+            );
+            popupMenu.getMenuInflater().inflate(
+                R.menu.queue_list_item_action_menu,
+                popupMenu.getMenu()
+            );
             popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
                 if (menuItem.getItemId() == R.id.queue_list_item_action_menu_delete) {
                     new AlertDialog.Builder(view.getContext())
                         .setTitle("Delete queue")
                         .setMessage("Are you sure you want to delete this queue?")
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                            Wrapper.getQueueMaker().delete(queues[position]);
+                        .setPositiveButton(
+                            android.R.string.yes,
+                            (dialog, which) -> {
+                                Wrapper.getQueueMaker().delete(queues[position]);
 
-                            reloadItems();
-                        })
-                        .setNegativeButton(android.R.string.no, null)
+                                reloadItems();
+                            }
+                        )
+                        .setNegativeButton(
+                            android.R.string.no,
+                            null
+                        )
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
                 } else if (menuItem.getItemId() == R.id.queue_list_item_action_menu_rename) {
@@ -85,13 +101,19 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
                     input.setText(queues[position].getName());
                     builder.setView(input);
 
-                    builder.setPositiveButton("OK", (dialog, which) -> {
-                        String name = input.getText().toString().trim();
-                        queues[position].setName(name);
+                    builder.setPositiveButton(
+                        "OK",
+                        (dialog, which) -> {
+                            String name = input.getText().toString().trim();
+                            queues[position].setName(name);
 
-                        reloadItems();
-                    });
-                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+                            reloadItems();
+                        }
+                    );
+                    builder.setNegativeButton(
+                        "Cancel",
+                        (dialog, which) -> dialog.cancel()
+                    );
 
                     builder.show();
                 }
@@ -104,9 +126,15 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         });
         viewHolder.getBinding().queueListItemItem.setOnClickListener((View view) -> {
             Bundle extra = new Bundle();
-            extra.putInt("queue_id", queues[position].getId());
+            extra.putInt(
+                "queue_id",
+                queues[position].getId()
+            );
 
-            Intent intent = new Intent(view.getContext(), EventListActivity.class);
+            Intent intent = new Intent(
+                view.getContext(),
+                EventListActivity.class
+            );
             intent.putExtras(extra);
 
             view.getContext().startActivity(intent);
@@ -115,35 +143,11 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
 
         viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
-            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
+            Intent intent = new Intent(
+                view.getContext(),
+                EventEditActivity.class
+            );
             view.getContext().startActivity(intent);
-
-//            Log.w(TAG, "TODO: Open editor");
-//
-//            Event event = Wrapper.getEventMaker().create();
-//            event.setTimestamp(System.currentTimeMillis());
-//            event.setComment("Lobster number " + System.currentTimeMillis() + "\n" + "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-//            queues[position].addEvent(event);
-//
-//            Tag[] tags = new Tag[] {
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_cum"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_poo"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_fart"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_penis"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_dick"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_cock"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_zalupa"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_ololo"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_owo"),
-//                Wrapper.getTagMaker().getOrCreateInQueue(queues[position], "tag_" + position + "_uwu"),
-//            };
-//            for (Tag tag: tags) {
-//                event.addTag(tag);
-//            }
-//
-//            Log.w(TAG, "Create: " + event.toString() + " in " + queues[position]);
-//
-//            reloadItems();
         });
     }
 

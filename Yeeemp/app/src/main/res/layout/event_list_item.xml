@@ -40,7 +40,6 @@
                 android:layout_margin="@dimen/event_list_item_comment_margin"
                 android:fontFamily="monospace"
                 android:text="TextView"
-                android:textAlignment="center"
                 android:visibility="gone"
                 android:padding="@dimen/event_list_item_comment_padding"
                 android:textColor="@color/pegasko_white"

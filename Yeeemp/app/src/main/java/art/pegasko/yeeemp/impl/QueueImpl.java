@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Tag;
+import art.pegasko.yeeemp.base.TagStat;
 import kotlin.NotImplementedError;
 
 public class QueueImpl implements Queue {
@@ -131,7 +132,9 @@ public class QueueImpl implements Queue {
         }
     }
 
-    /** !synchronized */
+    /**
+     * !synchronized
+     */
     protected boolean hasEvent(Event event) {
         synchronized (this.db) {
             Cursor cursor = db.query(
@@ -190,30 +193,60 @@ public class QueueImpl implements Queue {
     }
 
     @Override
-    public Tag[] getGlobalTags() {
+    public TagStat[] getGlobalTags() {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "tag",
-                new String[] { "id" },
-                "queue_id = ?",
-                new String[] { Integer.toString(this.getId()) },
-                null,
-                null,
-                null
+            Cursor cursor = db.rawQuery(
+                "select" +
+                "    tag_id,\n" +
+                "    count(*) as cnt\n" +
+                "from (\n" +
+                "    select\n" +
+                "        event_id,\n" +
+                "        tag_id\n" +
+                "    from (\n" +
+                "        select\n" +
+                "            event_tag.event_id as event_id,\n" +
+                "            event_tag.tag_id as tag_id\n" +
+                "        from (\n" +
+                "            select\n" +
+                "                event_id\n" +
+                "            from\n" +
+                "                queue_event\n" +
+                "            where\n" +
+                "                queue_id = ?\n" +
+                "        ) as queue_event_temp\n" +
+                "        inner join\n" +
+                "            event_tag\n" +
+                "        on\n" +
+                "            (event_tag.event_id = queue_event_temp.event_id)\n" +
+                "    )\n" +
+                "    group by\n" +
+                "        event_id,\n" +
+                "        tag_id\n" +
+                ")\n" +
+                "group by\n" +
+                "    tag_id\n" +
+                "order by\n" +
+                "    cnt desc",
+                new String[] { Integer.toString(this.getId()) }
             );
 
             if (cursor == null) {
-                return new Tag[0];
+                return new TagStat[0];
             }
 
-            Tag[] tags = new Tag[cursor.getCount()];
+            TagStat[] tags = new TagStat[cursor.getCount()];
 
             int index = 0;
             while (cursor.moveToNext()) {
-                tags[index++] = new TagImpl(
+                TagStat tagStat = new TagStat();
+                tags[index++] = tagStat;
+
+                tagStat.tag = new TagImpl(
                     this.db,
                     cursor.getInt(0)
                 );
+                tagStat.count = cursor.getInt(1);
             }
 
             return tags;

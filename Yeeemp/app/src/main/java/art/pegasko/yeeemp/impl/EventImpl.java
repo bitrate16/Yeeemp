@@ -46,14 +46,8 @@ public class EventImpl implements Event {
     @Override
     public long getTimestamp() {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "event",
-                new String[] { "timestamp" },
-                "id = ?",
-                new String[] { Integer.toString(this.getId()) },
-                null,
-                null,
-                null
+            Cursor cursor = db.query("event", new String[] { "timestamp" }, "id = ?",
+                                     new String[] { Integer.toString(this.getId()) }, null, null, null
             );
 
             if (Utils.findResult(cursor)) {
@@ -69,26 +63,15 @@ public class EventImpl implements Event {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
             cv.put("timestamp", timestamp);
-            db.update(
-                "event",
-                cv,
-                "id = ?",
-                new String[] { Integer.toString(this.getId()) }
-            );
+            db.update("event", cv, "id = ?", new String[] { Integer.toString(this.getId()) });
         }
     }
 
     @Override
     public String getComment() {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "event",
-                new String[] { "comment" },
-                "id = ?",
-                new String[] { Integer.toString(this.getId()) },
-                null,
-                null,
-                null
+            Cursor cursor = db.query("event", new String[] { "comment" }, "id = ?",
+                                     new String[] { Integer.toString(this.getId()) }, null, null, null
             );
 
             if (Utils.findResult(cursor)) {
@@ -104,27 +87,18 @@ public class EventImpl implements Event {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
             cv.put("comment", comment);
-            db.update(
-                "event",
-                cv,
-                "id = ?",
-                new String[] { Integer.toString(this.getId()) }
-            );
+            db.update("event", cv, "id = ?", new String[] { Integer.toString(this.getId()) });
         }
     }
 
-    /** !synchronized */
+    /**
+     * !synchronized
+     */
     protected boolean hasTag(Tag tag) {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "event_tag",
-                new String[] { "1" },
-                "event_id = ? AND tag_id = ?",
-                new String[] { Integer.toString(this.getId()), Integer.toString(tag.getId()) },
-                null,
-                null,
-                null
-            );
+            Cursor cursor = db.query("event_tag", new String[] { "1" }, "event_id = ? AND tag_id = ?", new String[] {
+                Integer.toString(this.getId()), Integer.toString(tag.getId())
+            }, null, null, null);
 
             return Utils.findResult(cursor);
         }
@@ -133,11 +107,9 @@ public class EventImpl implements Event {
     @Override
     public void addTag(Tag tag) {
         synchronized (this.db) {
-            if (tag == null)
-                return;
+            if (tag == null) return;
 
-            if (this.hasTag(tag))
-                return;
+            if (this.hasTag(tag)) return;
 
             try {
                 ContentValues cv = new ContentValues();
@@ -153,18 +125,14 @@ public class EventImpl implements Event {
     @Override
     public void removeTag(Tag tag) {
         synchronized (this.db) {
-            if (tag == null)
-                return;
+            if (tag == null) return;
 
-            if (!this.hasTag(tag))
-                return;
+            if (!this.hasTag(tag)) return;
 
             try {
-                db.delete(
-                    "event_tag",
-                    "event_id = ? AND tag_id = ?",
-                    new String[] { Integer.toString(this.getId()), Integer.toString(tag.getId()) }
-                );
+                db.delete("event_tag", "event_id = ? AND tag_id = ?", new String[] {
+                    Integer.toString(this.getId()), Integer.toString(tag.getId())
+                });
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
             }
@@ -175,11 +143,7 @@ public class EventImpl implements Event {
     public void removeTags() {
         synchronized (this.db) {
             try {
-                db.delete(
-                    "event_tag",
-                    "event_id = ?",
-                    new String[] { Integer.toString(this.getId()) }
-                );
+                db.delete("event_tag", "event_id = ?", new String[] { Integer.toString(this.getId()) });
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
             }
@@ -189,14 +153,8 @@ public class EventImpl implements Event {
     @Override
     public Tag[] getTags() {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "event_tag",
-                new String[] { "tag_id" },
-                "event_id = ?",
-                new String[] { Integer.toString(this.getId()) },
-                null,
-                null,
-                null
+            Cursor cursor = db.query("event_tag", new String[] { "tag_id" }, "event_id = ?",
+                                     new String[] { Integer.toString(this.getId()) }, null, null, "tag_id desc"
             );
 
             if (cursor == null) {
@@ -207,10 +165,7 @@ public class EventImpl implements Event {
 
             int index = 0;
             while (cursor.moveToNext()) {
-                tags[index++] = new TagImpl(
-                    this.db,
-                    cursor.getInt(0)
-                );
+                tags[index++] = new TagImpl(this.db, cursor.getInt(0));
             }
 
             return tags;
