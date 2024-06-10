@@ -48,13 +48,7 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = (
-            LayoutInflater
-                .from(viewGroup.getContext())
-                .inflate(
-                    R.layout.queue_list_item,
-                    viewGroup,
-                    false
-                )
+            LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.queue_list_item, viewGroup, false)
         );
 
         return new ViewHolder(view);
@@ -65,33 +59,20 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemTitle.setText(queues[position].getName());
 
         viewHolder.getBinding().queueListItemItem.setOnLongClickListener((View view) -> {
-            PopupMenu popupMenu = new PopupMenu(
-                view.getContext(),
-                viewHolder.getBinding().queueListItemItem
-            );
-            popupMenu.getMenuInflater().inflate(
-                R.menu.queue_list_item_action_menu,
-                popupMenu.getMenu()
-            );
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.getBinding().queueListItemItem);
+            popupMenu.getMenuInflater().inflate(R.menu.queue_list_item_action_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
                 if (menuItem.getItemId() == R.id.queue_list_item_action_menu_delete) {
-                    new AlertDialog.Builder(view.getContext())
-                        .setTitle("Delete queue")
-                        .setMessage("Are you sure you want to delete this queue?")
-                        .setPositiveButton(
-                            android.R.string.yes,
-                            (dialog, which) -> {
-                                Wrapper.getQueueMaker().delete(queues[position]);
+                    new AlertDialog.Builder(view.getContext()).setTitle("Delete queue").setMessage(
+                        "Are you sure you want to delete this queue?").setPositiveButton(
+                        android.R.string.yes,
+                        (dialog, which) -> {
+                            Wrapper.getQueueMaker().delete(
+                                queues[position]);
 
-                                reloadItems();
-                            }
-                        )
-                        .setNegativeButton(
-                            android.R.string.no,
-                            null
-                        )
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                            reloadItems();
+                        }
+                    ).setNegativeButton(android.R.string.no, null).setIcon(android.R.drawable.ic_dialog_alert).show();
                 } else if (menuItem.getItemId() == R.id.queue_list_item_action_menu_rename) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                     builder.setTitle("Title");
@@ -101,19 +82,13 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
                     input.setText(queues[position].getName());
                     builder.setView(input);
 
-                    builder.setPositiveButton(
-                        "OK",
-                        (dialog, which) -> {
-                            String name = input.getText().toString().trim();
-                            queues[position].setName(name);
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        String name = input.getText().toString().trim();
+                        queues[position].setName(name);
 
-                            reloadItems();
-                        }
-                    );
-                    builder.setNegativeButton(
-                        "Cancel",
-                        (dialog, which) -> dialog.cancel()
-                    );
+                        reloadItems();
+                    });
+                    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
                     builder.show();
                 }
@@ -126,15 +101,9 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         });
         viewHolder.getBinding().queueListItemItem.setOnClickListener((View view) -> {
             Bundle extra = new Bundle();
-            extra.putInt(
-                "queue_id",
-                queues[position].getId()
-            );
+            extra.putInt("queue_id", queues[position].getId());
 
-            Intent intent = new Intent(
-                view.getContext(),
-                EventListActivity.class
-            );
+            Intent intent = new Intent(view.getContext(), EventListActivity.class);
             intent.putExtras(extra);
 
             view.getContext().startActivity(intent);
@@ -143,10 +112,7 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
 
         viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
-            Intent intent = new Intent(
-                view.getContext(),
-                EventEditActivity.class
-            );
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
             view.getContext().startActivity(intent);
         });
     }

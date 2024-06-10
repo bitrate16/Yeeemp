@@ -18,7 +18,10 @@ package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -57,13 +60,7 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = (
-            LayoutInflater
-                .from(viewGroup.getContext())
-                .inflate(
-                    R.layout.event_list_item,
-                    viewGroup,
-                    false
-                )
+            LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_list_item, viewGroup, false)
         );
 
         return new ViewHolder(view);
@@ -75,13 +72,11 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
         Tag[] tags = this.events[position].getTags();
         for (Tag tag : tags) {
             TextView tagView = (TextView) (
-                LayoutInflater
-                    .from(viewHolder.getBinding().getRoot().getContext())
-                    .inflate(
-                        R.layout.event_list_item_tag,
-                        null,
-                        false
-                    )
+                LayoutInflater.from(viewHolder.getBinding().getRoot().getContext()).inflate(
+                    R.layout.event_list_item_tag,
+                    null,
+                    false
+                )
             );
 
             tagView.setText(tag.getName());
@@ -100,33 +95,23 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
         }
 
         viewHolder.getBinding().eventListItemItem.setOnLongClickListener((View view) -> {
-            PopupMenu popupMenu = new PopupMenu(
-                view.getContext(),
-                viewHolder.getBinding().eventListItemItem
-            );
-            popupMenu.getMenuInflater().inflate(
-                R.menu.event_list_item_action_menu,
-                popupMenu.getMenu()
-            );
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), viewHolder.getBinding().eventListItemItem);
+            popupMenu.getMenuInflater().inflate(R.menu.event_list_item_action_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
                 if (menuItem.getItemId() == R.id.event_list_item_action_menu_delete) {
-                    new AlertDialog.Builder(view.getContext())
-                        .setTitle("Delete event")
-                        .setMessage("Are you sure you want to delete this event?")
-                        .setPositiveButton(
-                            android.R.string.yes,
-                            (dialog, which) -> {
-                                Wrapper.getEventMaker().delete(events[position]);
+                    new AlertDialog.Builder(view.getContext()).setTitle("Delete event").setMessage(
+                        "Are you sure you want to delete this event?").setPositiveButton(
+                        android.R.string.yes,
+                        (dialog, which) -> {
+                            Wrapper.getEventMaker().delete(
+                                events[position]);
 
-                                reloadItems();
-                            }
-                        )
-                        .setNegativeButton(
-                            android.R.string.no,
-                            null
-                        )
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                            reloadItems();
+                        }
+                    ).setNegativeButton(
+                        android.R.string.no,
+                        null
+                    ).setIcon(android.R.drawable.ic_dialog_alert).show();
                 }
                 return true;
             });
@@ -137,19 +122,10 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
         });
         viewHolder.getBinding().eventListItemItem.setOnClickListener((View view) -> {
             Bundle extra = new Bundle();
-            extra.putInt(
-                "event_id",
-                this.events[position].getId()
-            );
-            extra.putInt(
-                "queue_id",
-                this.queue.getId()
-            );
+            extra.putInt("event_id", this.events[position].getId());
+            extra.putInt("queue_id", this.queue.getId());
 
-            Intent intent = new Intent(
-                view.getContext(),
-                EventEditActivity.class
-            );
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
             intent.putExtras(extra);
 
             view.getContext().startActivity(intent);
@@ -175,7 +151,12 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
     }
 
     public void reloadItems() {
-        this.events = this.queue.getEvents();
-        this.notifyDataSetChanged();
+        Handler handler = new Handler(Looper.getMainLooper());
+        Executors.newSingleThreadExecutor().execute(() -> {
+            this.events = this.queue.getEvents();
+            handler.post(() -> {
+                this.notifyDataSetChanged();
+            });
+        });
     }
 }

@@ -72,12 +72,7 @@ public class QueueImpl implements Queue {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
             cv.put("name", name);
-            db.update(
-                "queue",
-                cv,
-                "id = ?",
-                new String[] { Integer.toString(this.getId()) }
-            );
+            db.update("queue", cv, "id = ?", new String[] { Integer.toString(this.getId()) });
         }
     }
 
@@ -102,10 +97,7 @@ public class QueueImpl implements Queue {
 
             int index = 0;
             while (cursor.moveToNext()) {
-                events[index++] = new EventImpl(
-                    this.db,
-                    cursor.getInt(0)
-                );
+                events[index++] = new EventImpl(this.db, cursor.getInt(0));
             }
 
             return events;
@@ -125,8 +117,7 @@ public class QueueImpl implements Queue {
                 null
             );
 
-            if (!Utils.findResult(cursor))
-                return 0;
+            if (!Utils.findResult(cursor)) return 0;
 
             return cursor.getInt(0);
         }
@@ -154,11 +145,9 @@ public class QueueImpl implements Queue {
     @Override
     public void addEvent(Event event) {
         synchronized (this.db) {
-            if (event == null)
-                return;
+            if (event == null) return;
 
-            if (this.hasEvent(event))
-                return;
+            if (this.hasEvent(event)) return;
 
             try {
                 ContentValues cv = new ContentValues();
@@ -174,11 +163,9 @@ public class QueueImpl implements Queue {
     @Override
     public void removeEvent(Event event) {
         synchronized (this.db) {
-            if (event == null)
-                return;
+            if (event == null) return;
 
-            if (this.hasEvent(event))
-                return;
+            if (this.hasEvent(event)) return;
 
             try {
                 db.delete(
@@ -196,38 +183,7 @@ public class QueueImpl implements Queue {
     public TagStat[] getGlobalTags() {
         synchronized (this.db) {
             Cursor cursor = db.rawQuery(
-                "select" +
-                "    tag_id,\n" +
-                "    count(*) as cnt\n" +
-                "from (\n" +
-                "    select\n" +
-                "        event_id,\n" +
-                "        tag_id\n" +
-                "    from (\n" +
-                "        select\n" +
-                "            event_tag.event_id as event_id,\n" +
-                "            event_tag.tag_id as tag_id\n" +
-                "        from (\n" +
-                "            select\n" +
-                "                event_id\n" +
-                "            from\n" +
-                "                queue_event\n" +
-                "            where\n" +
-                "                queue_id = ?\n" +
-                "        ) as queue_event_temp\n" +
-                "        inner join\n" +
-                "            event_tag\n" +
-                "        on\n" +
-                "            (event_tag.event_id = queue_event_temp.event_id)\n" +
-                "    )\n" +
-                "    group by\n" +
-                "        event_id,\n" +
-                "        tag_id\n" +
-                ")\n" +
-                "group by\n" +
-                "    tag_id\n" +
-                "order by\n" +
-                "    cnt desc",
+                "select" + "    tag_id,\n" + "    count(*) as cnt\n" + "from (\n" + "    select\n" + "        event_id,\n" + "        tag_id\n" + "    from (\n" + "        select\n" + "            event_tag.event_id as event_id,\n" + "            event_tag.tag_id as tag_id\n" + "        from (\n" + "            select\n" + "                event_id\n" + "            from\n" + "                queue_event\n" + "            where\n" + "                queue_id = ?\n" + "        ) as queue_event_temp\n" + "        inner join\n" + "            event_tag\n" + "        on\n" + "            (event_tag.event_id = queue_event_temp.event_id)\n" + "    )\n" + "    group by\n" + "        event_id,\n" + "        tag_id\n" + ")\n" + "group by\n" + "    tag_id\n" + "order by\n" + "    cnt desc",
                 new String[] { Integer.toString(this.getId()) }
             );
 
@@ -242,10 +198,7 @@ public class QueueImpl implements Queue {
                 TagStat tagStat = new TagStat();
                 tags[index++] = tagStat;
 
-                tagStat.tag = new TagImpl(
-                    this.db,
-                    cursor.getInt(0)
-                );
+                tagStat.tag = new TagImpl(this.db, cursor.getInt(0));
                 tagStat.count = cursor.getInt(1);
             }
 

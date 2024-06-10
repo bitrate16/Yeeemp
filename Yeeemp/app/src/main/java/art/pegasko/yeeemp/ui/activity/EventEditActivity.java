@@ -94,33 +94,21 @@ public class EventEditActivity extends AppCompatActivity {
         // Get Queue ID from Intent
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
 
-        int queue_id = extras.getInt(
-            "queue_id",
-            -1
-        );
+        int queue_id = extras.getInt("queue_id", -1);
         if (queue_id == -1) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
 
         queue = Wrapper.getQueueMaker().getById(queue_id);
         if (queue == null) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
@@ -131,10 +119,7 @@ public class EventEditActivity extends AppCompatActivity {
         // Get Event ID from Intent (optional)
         extras = getIntent().getExtras();
         if (extras != null) {
-            int event_id = extras.getInt(
-                "event_id",
-                -1
-            );
+            int event_id = extras.getInt("event_id", -1);
             if (event_id != -1) {
                 this.event = Wrapper.getEventMaker().getById(event_id);
                 this.eventContainer.timestamp = this.event.getTimestamp();
@@ -148,8 +133,7 @@ public class EventEditActivity extends AppCompatActivity {
         binding = ActivityEventEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle(
-            getSupportActionBar().getTitle() + " / " + (event == null ? "Create" : "Edit") + " Event");
+        getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " / " + (event == null ? "Create" : "Edit") + " Event");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -164,18 +148,15 @@ public class EventEditActivity extends AppCompatActivity {
         // Request focus on click
         this.binding.eventEditContent.eventEditContainerComment.setOnClickListener((View view) -> {
             this.binding.eventEditContent.eventEditComment.requestFocus();
-            this.binding.eventEditContent.eventEditComment.setSelection(
-                EventEditActivity.this.binding.eventEditContent.eventEditComment.getText().length());
+            this.binding.eventEditContent.eventEditComment.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditComment.getText().length());
         });
 
         /* Timestamp Listeners */
 
         binding.eventEditContent.eventEditContainerTimestamp.setOnClickListener((View view) -> {
             Date date;
-            if (this.eventContainer.timestamp != 0)
-                date = new Date(this.eventContainer.timestamp);
-            else
-                date = new Date();
+            if (this.eventContainer.timestamp != 0) date = new Date(this.eventContainer.timestamp);
+            else date = new Date();
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                 view.getContext(),
@@ -184,16 +165,23 @@ public class EventEditActivity extends AppCompatActivity {
                         view.getContext(),
                         (TimePicker timePicker, int hour, int minute) -> {
                             Date newDate = new Date();
-                            newDate.setYear(year - 1900);
-                            newDate.setMonth(month);
-                            newDate.setDate(day);
-                            newDate.setHours(hour);
-                            newDate.setMinutes(minute);
-                            newDate.setSeconds(0);
+                            newDate.setYear(
+                                year - 1900);
+                            newDate.setMonth(
+                                month);
+                            newDate.setDate(
+                                day);
+                            newDate.setHours(
+                                hour);
+                            newDate.setMinutes(
+                                minute);
+                            newDate.setSeconds(
+                                0);
 
                             this.eventContainer.timestamp = newDate.getTime();
                             binding.eventEditContent.eventEditTimestamp.setText(
-                                Utils.formatTs(this.eventContainer.timestamp));
+                                Utils.formatTs(
+                                    this.eventContainer.timestamp));
                         },
                         date.getHours(),
                         date.getMinutes(),
@@ -210,16 +198,10 @@ public class EventEditActivity extends AppCompatActivity {
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(
-                    view,
-                    "Save Event",
-                    Snackbar.LENGTH_LONG
-                )
-                .setAnchorView(R.id.fab)
-                .setAction(
-                    "Action",
-                    null
-                ).show();
+            Snackbar.make(view, "Save Event", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).setAction(
+                "Action",
+                null
+            ).show();
 
             return true;
         });
@@ -227,8 +209,7 @@ public class EventEditActivity extends AppCompatActivity {
             // Finalize values
             this.eventContainer.comment = this.binding.eventEditContent.eventEditComment.getText().toString().trim();
 
-            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(
-                ",");
+            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(",");
             tags = Utils.orderedDeduplicateIgnoreCaseAndTrim(tags);
             this.eventContainer.tags.clear();
             for (String tag : tags) {
@@ -237,16 +218,12 @@ public class EventEditActivity extends AppCompatActivity {
 
             // Fill event
             boolean hasEvent = this.event != null;
-            if (this.event == null)
-                this.event = Wrapper.getEventMaker().create();
+            if (this.event == null) this.event = Wrapper.getEventMaker().create();
 
             this.event.setTimestamp(this.eventContainer.timestamp);
             this.event.removeTags();
             for (String tag : this.eventContainer.tags) {
-                this.event.addTag(Wrapper.getTagMaker().getOrCreateInQueue(
-                    this.queue,
-                    tag
-                ));
+                this.event.addTag(Wrapper.getTagMaker().getOrCreateInQueue(this.queue, tag));
             }
             this.event.setComment(this.eventContainer.comment);
 
@@ -270,32 +247,22 @@ public class EventEditActivity extends AppCompatActivity {
         this.binding.eventEditContent.eventEditTags.setThreshold(1);
         this.binding.eventEditContent.eventEditTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
         this.binding.eventEditContent.eventEditTags.setOnItemClickListener((parent, view, position, id) -> {
-            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(
-                ",");
+            String[] tags = EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().toString().split(",");
             tags = Utils.orderedDeduplicateIgnoreCaseAndTrim(tags);
 
-            EventEditActivity.this.binding.eventEditContent.eventEditTags.setText(String.join(
-                ", ",
-                tags
-            ));
-            EventEditActivity.this.binding.eventEditContent.eventEditTags.setSelection(
-                EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.setText(String.join(", ", tags));
+            EventEditActivity.this.binding.eventEditContent.eventEditTags.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
         });
 
         // Request focus on click
         this.binding.eventEditContent.eventEditContainerTags.setOnClickListener((View view) -> {
             this.binding.eventEditContent.eventEditTags.requestFocus();
-            this.binding.eventEditContent.eventEditTags.setSelection(
-                EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+            this.binding.eventEditContent.eventEditTags.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
         });
 
         // Fill
-        this.binding.eventEditContent.eventEditTags.setText(String.join(
-            ", ",
-            this.eventContainer.tags
-        ));
-        this.binding.eventEditContent.eventEditTags.setSelection(
-            EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+        this.binding.eventEditContent.eventEditTags.setText(String.join(", ", this.eventContainer.tags));
+        this.binding.eventEditContent.eventEditTags.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
     }
 
     @Override

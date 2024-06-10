@@ -98,7 +98,13 @@ public class DBWrapper extends Wrapper {
         "CREATE TABLE IF NOT EXISTS queue_event (" +
         "    queue_id INTEGER," +
         "    event_id INTEGER" +
-        ");"
+        ");",
+
+        "CREATE INDEX IF NOT EXISTS queue_event__event_id_tag_id ON queue_event(queue_id, event_id);",
+
+        "CREATE INDEX IF NOT EXISTS queue_event__event_id ON queue_event(queue_id);",
+
+        "CREATE INDEX IF NOT EXISTS queue_event__tag_id ON queue_event(event_id);"
     };
 
     private static String DB_PATH = "database.db";

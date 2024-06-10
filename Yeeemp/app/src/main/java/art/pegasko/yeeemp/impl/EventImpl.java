@@ -32,6 +32,7 @@ public class EventImpl implements Event {
 
     private final SQLiteDatabase db;
     private final int id;
+    private Tag[] cachedTags;
 
     protected EventImpl(SQLiteDatabase db, int id) {
         this.db = db;
@@ -46,8 +47,14 @@ public class EventImpl implements Event {
     @Override
     public long getTimestamp() {
         synchronized (this.db) {
-            Cursor cursor = db.query("event", new String[] { "timestamp" }, "id = ?",
-                                     new String[] { Integer.toString(this.getId()) }, null, null, null
+            Cursor cursor = db.query(
+                "event",
+                new String[] { "timestamp" },
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) },
+                null,
+                null,
+                null
             );
 
             if (Utils.findResult(cursor)) {
@@ -70,8 +77,14 @@ public class EventImpl implements Event {
     @Override
     public String getComment() {
         synchronized (this.db) {
-            Cursor cursor = db.query("event", new String[] { "comment" }, "id = ?",
-                                     new String[] { Integer.toString(this.getId()) }, null, null, null
+            Cursor cursor = db.query(
+                "event",
+                new String[] { "comment" },
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) },
+                null,
+                null,
+                null
             );
 
             if (Utils.findResult(cursor)) {
@@ -107,6 +120,8 @@ public class EventImpl implements Event {
     @Override
     public void addTag(Tag tag) {
         synchronized (this.db) {
+            this.cachedTags = null;
+
             if (tag == null) return;
 
             if (this.hasTag(tag)) return;
@@ -125,6 +140,8 @@ public class EventImpl implements Event {
     @Override
     public void removeTag(Tag tag) {
         synchronized (this.db) {
+            this.cachedTags = null;
+
             if (tag == null) return;
 
             if (!this.hasTag(tag)) return;
@@ -142,6 +159,8 @@ public class EventImpl implements Event {
     @Override
     public void removeTags() {
         synchronized (this.db) {
+            this.cachedTags = null;
+
             try {
                 db.delete("event_tag", "event_id = ?", new String[] { Integer.toString(this.getId()) });
             } catch (SQLiteException e) {
@@ -153,8 +172,17 @@ public class EventImpl implements Event {
     @Override
     public Tag[] getTags() {
         synchronized (this.db) {
-            Cursor cursor = db.query("event_tag", new String[] { "tag_id" }, "event_id = ?",
-                                     new String[] { Integer.toString(this.getId()) }, null, null, "tag_id desc"
+            if (this.cachedTags != null)
+                return this.cachedTags;
+
+            Cursor cursor = db.query(
+                "event_tag",
+                new String[] { "tag_id" },
+                "event_id = ?",
+                new String[] { Integer.toString(this.getId()) },
+                null,
+                null,
+                "tag_id desc"
             );
 
             if (cursor == null) {
@@ -168,7 +196,7 @@ public class EventImpl implements Event {
                 tags[index++] = new TagImpl(this.db, cursor.getInt(0));
             }
 
-            return tags;
+            return this.cachedTags = tags;
         }
     }
 

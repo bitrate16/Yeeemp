@@ -40,26 +40,19 @@ public class QueueMakerImpl implements QueueMaker {
     public Queue getById(int id) {
         synchronized (this.db) {
             try {
-                Cursor cursor = db.query(
-                    "queue",
-                    new String[] { "1" },
-                    "id = ?",
-                    new String[] { Integer.toString(id) },
-                    null,
-                    null,
-                    null
+                Cursor cursor = db.query("queue",
+                                         new String[] { "1" },
+                                         "id = ?",
+                                         new String[] { Integer.toString(id) },
+                                         null,
+                                         null,
+                                         null
                 );
 
-                if (Utils.findResult(cursor)) return new QueueImpl(
-                    this.db,
-                    id
-                );
+                if (Utils.findResult(cursor)) return new QueueImpl(this.db, id);
 
             } catch (SQLiteException e) {
-                Log.wtf(
-                    TAG,
-                    e
-                );
+                Log.wtf(TAG, e);
             }
 
             return null;
@@ -71,24 +64,11 @@ public class QueueMakerImpl implements QueueMaker {
         synchronized (this.db) {
             try {
                 ContentValues cv = new ContentValues();
-                cv.put(
-                    "id",
-                    (Integer) null
-                );
-                long rowId = db.insertOrThrow(
-                    "queue",
-                    null,
-                    cv
-                );
-                return new QueueImpl(
-                    this.db,
-                    (int) rowId
-                );
+                cv.put("id", (Integer) null);
+                long rowId = db.insertOrThrow("queue", null, cv);
+                return new QueueImpl(this.db, (int) rowId);
             } catch (SQLiteException e) {
-                Log.wtf(
-                    TAG,
-                    e
-                );
+                Log.wtf(TAG, e);
             }
 
             return null;
@@ -98,15 +78,7 @@ public class QueueMakerImpl implements QueueMaker {
     @Override
     public Queue[] list() {
         synchronized (this.db) {
-            Cursor cursor = db.query(
-                "queue",
-                new String[] { "id" },
-                null,
-                null,
-                null,
-                null,
-                null
-            );
+            Cursor cursor = db.query("queue", new String[] { "id" }, null, null, null, null, null);
 
             if (cursor == null) {
                 return new Queue[0];
@@ -116,10 +88,7 @@ public class QueueMakerImpl implements QueueMaker {
 
             int index = 0;
             while (cursor.moveToNext()) {
-                queues[index++] = new QueueImpl(
-                    this.db,
-                    cursor.getInt(0)
-                );
+                queues[index++] = new QueueImpl(this.db, cursor.getInt(0));
             }
 
             return queues;
@@ -133,46 +102,25 @@ public class QueueMakerImpl implements QueueMaker {
             // Drop events
             try {
                 for (Event event : queue.getEvents()) {
-                    db.delete(
-                        "event",
-                        "id = ?",
-                        new String[] { Integer.toString(event.getId()) }
-                    );
+                    db.delete("event", "id = ?", new String[] { Integer.toString(event.getId()) });
                 }
             } catch (SQLiteException e) {
-                Log.wtf(
-                    TAG,
-                    e
-                );
+                Log.wtf(TAG, e);
                 return;
             }
 
             // Drop queue <-> event
             try {
-                db.delete(
-                    "queue_event",
-                    "queue_id = ?",
-                    new String[] { Integer.toString(queue.getId()) }
-                );
+                db.delete("queue_event", "queue_id = ?", new String[] { Integer.toString(queue.getId()) });
             } catch (SQLiteException e) {
-                Log.wtf(
-                    TAG,
-                    e
-                );
+                Log.wtf(TAG, e);
             }
 
             // Drop queue
             try {
-                db.delete(
-                    "queue",
-                    "id = ?",
-                    new String[] { Integer.toString(queue.getId()) }
-                );
+                db.delete("queue", "id = ?", new String[] { Integer.toString(queue.getId()) });
             } catch (SQLiteException e) {
-                Log.wtf(
-                    TAG,
-                    e
-                );
+                Log.wtf(TAG, e);
             }
         }
     }

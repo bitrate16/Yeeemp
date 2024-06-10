@@ -68,11 +68,7 @@ public class QueueListActivity extends AppCompatActivity {
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(
-                view,
-                "Create Queue",
-                Snackbar.LENGTH_LONG
-            ).setAnchorView(R.id.fab).setAction(
+            Snackbar.make(view, "Create Queue", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).setAction(
                 "Action",
                 null
             ).show();

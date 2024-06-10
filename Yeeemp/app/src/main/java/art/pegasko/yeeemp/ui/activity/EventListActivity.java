@@ -63,33 +63,21 @@ public class EventListActivity extends AppCompatActivity {
         // Get Queue ID from Intent
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
 
-        int queue_id = extras.getInt(
-            "queue_id",
-            -1
-        );
+        int queue_id = extras.getInt("queue_id", -1);
         if (queue_id == -1) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
 
         queue = Wrapper.getQueueMaker().getById(queue_id);
         if (queue == null) {
-            Log.e(
-                TAG,
-                "Missing Intent arguments (queue_id)"
-            );
+            Log.e(TAG, "Missing Intent arguments (queue_id)");
             finish();
             return;
         }
@@ -128,30 +116,17 @@ public class EventListActivity extends AppCompatActivity {
 
         /* FAB Listeners */
         binding.fab.setOnLongClickListener((View view) -> {
-            Snackbar.make(
-                    view,
-                    "Create Event",
-                    Snackbar.LENGTH_LONG
-                )
-                .setAnchorView(R.id.fab)
-                .setAction(
-                    "Action",
-                    null
-                ).show();
+            Snackbar.make(view, "Create Event", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).setAction("Action",
+                                                                                                        null
+            ).show();
 
             return true;
         });
         binding.fab.setOnClickListener(view -> {
             Bundle extra = new Bundle();
-            extra.putInt(
-                "queue_id",
-                this.queue.getId()
-            );
+            extra.putInt("queue_id", this.queue.getId());
 
-            Intent intent = new Intent(
-                view.getContext(),
-                EventEditActivity.class
-            );
+            Intent intent = new Intent(view.getContext(), EventEditActivity.class);
             intent.putExtras(extra);
 
             view.getContext().startActivity(intent);
