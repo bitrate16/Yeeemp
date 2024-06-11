@@ -112,7 +112,12 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
 
         viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
+            Bundle extra = new Bundle();
+            extra.putInt("queue_id", this.queues[position].getId());
+
             Intent intent = new Intent(view.getContext(), EventEditActivity.class);
+            intent.putExtras(extra);
+
             view.getContext().startActivity(intent);
         });
     }

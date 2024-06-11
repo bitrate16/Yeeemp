@@ -29,6 +29,7 @@ public class TagImpl implements Tag {
 
     private final SQLiteDatabase db;
     private final int id;
+    private String _cached_name;
 
     protected TagImpl(SQLiteDatabase db, int id) {
         this.db = db;
@@ -43,6 +44,9 @@ public class TagImpl implements Tag {
     @Override
     public String getName() {
         synchronized (this.db) {
+            if (this._cached_name != null)
+                return this._cached_name;
+
             Cursor cursor = db.query(
                 "tag",
                 new String[] { "name" },
@@ -54,7 +58,7 @@ public class TagImpl implements Tag {
             );
 
             if (Utils.findResult(cursor)) {
-                return cursor.getString(0);
+                return this._cached_name = cursor.getString(0);
             }
 
             return null;
