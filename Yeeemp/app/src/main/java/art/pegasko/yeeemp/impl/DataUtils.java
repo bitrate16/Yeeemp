@@ -52,21 +52,6 @@ public class DataUtils {
     }
 
     /* just copy internal db to external storage */
-    public static void exportDatabase(Context context, File directory) throws Exception {
-        directory.mkdirs();
-
-        File internalFile = DBWrapper.getDBPath(context);
-        File externalFile = new File(directory, "export_" + formatTs(System.currentTimeMillis()) + ".db");
-        FileInputStream fis = new FileInputStream(internalFile);
-        FileOutputStream fos = new FileOutputStream(externalFile);
-
-        copyStream(fis, fos);
-
-        fis.close();
-        fos.close();
-    }
-
-    /* just copy internal db to external storage */
     public static void exportDatabase(Context context, Uri uri) throws Exception {
         File internalFile = DBWrapper.getDBPath(context);
         InputStream fis = new FileInputStream(internalFile);
@@ -128,7 +113,6 @@ public class DataUtils {
     }
 
     public static void deleteDatabase(Context context) throws IOException {
-
         File internalFile = DBWrapper.getDBPath(context);
         internalFile.delete();
     }

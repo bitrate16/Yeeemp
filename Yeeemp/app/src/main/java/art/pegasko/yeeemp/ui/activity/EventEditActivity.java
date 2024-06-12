@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -146,8 +148,10 @@ public class EventEditActivity extends AppCompatActivity {
 
         // Request focus on click
         this.binding.eventEditContent.eventEditContainerComment.setOnClickListener((View view) -> {
-            this.binding.eventEditContent.eventEditComment.requestFocus();
-            this.binding.eventEditContent.eventEditComment.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditComment.getText().length());
+            EventEditActivity.this.binding.eventEditContent.eventEditComment.requestFocus();
+            EventEditActivity.this.binding.eventEditContent.eventEditComment.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditComment.getText().length());
+            InputMethodManager imm = (InputMethodManager) EventEditActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(EventEditActivity.this.binding.eventEditContent.eventEditComment, InputMethodManager.SHOW_IMPLICIT);
         });
 
         /* Timestamp Listeners */
@@ -257,6 +261,8 @@ public class EventEditActivity extends AppCompatActivity {
         this.binding.eventEditContent.eventEditContainerTags.setOnClickListener((View view) -> {
             this.binding.eventEditContent.eventEditTags.requestFocus();
             this.binding.eventEditContent.eventEditTags.setSelection(EventEditActivity.this.binding.eventEditContent.eventEditTags.getText().length());
+            InputMethodManager imm = (InputMethodManager) EventEditActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(EventEditActivity.this.binding.eventEditContent.eventEditTags, InputMethodManager.SHOW_IMPLICIT);
         });
 
         // Fill
