@@ -34,7 +34,7 @@ public class DBWrapper extends Wrapper {
     public static final boolean DEBUG = false;
 
     public DBWrapper(Context context) {
-        this.db = openDB(context);
+        this.db = openDB(context, DB_PATH);
         this.queueMaker = new QueueMakerImpl(this.db);
         this.eventMaker = new EventMakerImpl(this.db);
         this.tagMaker = new TagMakerImpl(this.db);
@@ -128,18 +128,32 @@ public class DBWrapper extends Wrapper {
     }
 
     /**
+     * Get internal database path
+     */
+    static File getDBPath(Context context) {
+        return new File(context.getFilesDir(), DB_PATH);
+    }
+
+    /**
      * @return opened and initialized database
      */
-    private SQLiteDatabase openDB(Context context) {
+    private static SQLiteDatabase openDB(Context context, String dbPath) {
         if (DBWrapper.DEBUG) {
             try {
-                new File(context.getFilesDir(), DB_PATH).delete();
+                new File(context.getFilesDir(), dbPath).delete();
             } catch (Exception e) {
                 Log.wtf(TAG, e);
             }
         }
 
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(new File(context.getFilesDir(), DB_PATH).getPath(), null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY);
+        File path = getDBPath(context);
+        SQLiteDatabase db;
+        if (!path.exists()) {
+            db = SQLiteDatabase.openDatabase(path.getPath(), null, SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.CREATE_IF_NECESSARY);
+        } else {
+            db = SQLiteDatabase.openDatabase(path.getPath(), null, SQLiteDatabase.OPEN_READWRITE);
+        }
+
         initDB(db);
         return db;
     }

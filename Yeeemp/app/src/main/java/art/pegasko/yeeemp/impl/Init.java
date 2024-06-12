@@ -25,4 +25,8 @@ public class Init {
         if (Wrapper.instance() == null)
             Wrapper.setInstance(new DBWrapper(context));
     }
+
+    public static void reinitDB(Context context) {
+        Wrapper.setInstance(new DBWrapper(context));
+    }
 }

@@ -49,4 +49,10 @@ public class Utils {
 
         return finalItems;
     }
+
+    public static int positiveHashCode16(Object o) {
+        if (o == null)
+            return 0;
+        return Math.abs(o.hashCode()) & ((1 << 16) - 1);
+    }
 }
