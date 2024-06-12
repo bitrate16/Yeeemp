@@ -30,8 +30,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 
+import art.pegasko.yeeemp.base.Wrapper;
 import art.pegasko.yeeemp.ui.activity.Utils;
 
+// TODO: Better data management API
 public class DataUtils {
     public static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
 
@@ -117,5 +119,17 @@ public class DataUtils {
     public static void deleteBackupDatabase(Context context) throws IOException {
         File backupFile = new File(context.getFilesDir(), "backup.db");
         backupFile.delete();
+    }
+
+    public static void closeDatabase() {
+        // Drop current database
+        ((DBWrapper) DBWrapper.instance()).db.close();
+        Wrapper.setInstance(null);
+    }
+
+    public static void deleteDatabase(Context context) throws IOException {
+
+        File internalFile = DBWrapper.getDBPath(context);
+        internalFile.delete();
     }
 }

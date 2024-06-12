@@ -86,6 +86,7 @@ public class QueueListActivity extends AppCompatActivity {
 
         /* Toolbar menu */
         binding.toolbar.inflateMenu(R.menu.queue_list_toolbar_menu);
+        // TODO: Better import / export / delete logic
         binding.toolbar.setOnMenuItemClickListener((MenuItem item) -> {
             if (item.getItemId() == R.id.queue_list_toolbar_menu_export) {
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
@@ -98,6 +99,41 @@ public class QueueListActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.setType("*/*");
                 startActivityForResult(intent, REQUEST_CODE_OPEN_FILE);
+
+                return true;
+            } else if (item.getItemId() == R.id.queue_list_toolbar_menu_delete) {
+
+                new AlertDialog
+                    .Builder(QueueListActivity.this)
+                    .setTitle("Confirm action")
+                    .setMessage("Delete everything?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", (DialogInterface dialog, int id) -> {
+                        try {
+                            Log.i(TAG, "Close before delete");
+                            DataUtils.closeDatabase();
+
+                            Log.i(TAG, "Deleting database");
+                            DataUtils.deleteDatabase(getApplicationContext());
+
+                            Log.i(TAG, "Reloading database");
+                            Init.reinitDB(getApplicationContext());
+                            updateList();
+                        } catch (Exception e) {
+                            Log.e(TAG, "Delete failed");
+                            Log.wtf(TAG, e);
+
+                            new AlertDialog
+                                .Builder(QueueListActivity.this)
+                                .setTitle("Delete failed")
+                                .setMessage(e.getMessage())
+                                .setCancelable(true)
+                                .setNegativeButton("OK", (DialogInterface dialog2, int id2) -> { dialog2.cancel(); })
+                                .show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (DialogInterface dialog, int id) -> { dialog.cancel(); })
+                    .show();
 
                 return true;
             }
@@ -167,6 +203,9 @@ public class QueueListActivity extends AppCompatActivity {
                         Log.i(TAG, "Importing file from " + uri.toString());
 
                         try {
+                            Log.i(TAG, "Close before restore");
+                            DataUtils.closeDatabase();
+
                             Log.i(TAG, "Backup before restore");
                             DataUtils.backupDatabase(getApplicationContext());
 
