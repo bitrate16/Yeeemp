@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -11,8 +10,8 @@ android {
         applicationId "art.pegasko.yeeemp"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 1003
+        versionName "1.003"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -34,13 +33,6 @@ android {
     buildFeatures {
         viewBinding true
         dataBinding = true
-        compose true
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1'
     }
     packaging {
         resources {
