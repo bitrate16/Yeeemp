@@ -26,26 +26,21 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import art.pegasko.yeeemp.base.TagStat;
 
 public class EventEditTagsAdapter extends ArrayAdapter<TagStat> {
     public static final String TAG = EventEditTagsAdapter.class.getSimpleName();
 
-    private ArrayList<TagStat> items;
-    private ArrayList<TagStat> itemsAll;
-    private ArrayList<TagStat> suggestions;
-    private int viewResourceId;
-    private int viewFieldId;
+    private ArrayList<TagStat> tags;
     private LayoutInflater inflater;
+    private final int viewResourceId;
+    private final int viewFieldId;
 
     @SuppressWarnings("unchecked")
-    public EventEditTagsAdapter(Context context, int viewResourceId, int viewFieldId, ArrayList<TagStat> items) {
-        super(context, viewResourceId, items);
-        this.items = items;
-        this.itemsAll = (ArrayList<TagStat>) items.clone();
-        this.suggestions = new ArrayList<TagStat>();
+    public EventEditTagsAdapter(Context context, int viewResourceId, int viewFieldId, ArrayList<TagStat> tags) {
+        super(context, viewResourceId, tags);
+        this.tags = tags;
         this.viewResourceId = viewResourceId;
         this.viewFieldId = viewFieldId;
         this.inflater = LayoutInflater.from(context);
@@ -71,7 +66,7 @@ public class EventEditTagsAdapter extends ArrayAdapter<TagStat> {
             throw new RuntimeException("You must supply a resource ID for a TextView");
         }
 
-        text.setText(items.get(position).tag.getName() + " (" + Integer.toString(items.get(position).count) + ")");
+        text.setText(tags.get(position).tag.getName() + " (" + tags.get(position).count + ")");
 
         return convertView;
     }
@@ -81,7 +76,11 @@ public class EventEditTagsAdapter extends ArrayAdapter<TagStat> {
         return nameFilter;
     }
 
-    Filter nameFilter = new Filter() {
+    private Filter nameFilter = new Filter() {
+        // TODO: Stop using mutable global
+        // Reusable filter result
+        private ArrayList<TagStat> tagsSuggestions = new ArrayList<TagStat>();
+
         public String convertResultToString(Object resultValue) {
             String str = ((TagStat) (resultValue)).tag.getName();
             return str;
@@ -89,31 +88,39 @@ public class EventEditTagsAdapter extends ArrayAdapter<TagStat> {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            if (constraint != null) {
-                suggestions.clear();
-                for (TagStat product : itemsAll) {
-                    if (product.tag.getName().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(product);
+            synchronized (tagsSuggestions) {
+                if (constraint != null) {
+                    tagsSuggestions.clear();
+                    for (TagStat tag : tags) {
+                        if (tag.tag.getName().contains(constraint.toString().toLowerCase())) {
+                            tagsSuggestions.add(tag);
+                        }
                     }
+                    FilterResults filterResults = new FilterResults();
+                    // TODO: Spank me for using global mutable instance for returning immutable result (causes concurrent modification when publishResults())
+                    filterResults.values = tagsSuggestions;
+                    filterResults.count = tagsSuggestions.size();
+                    return filterResults;
+                } else {
+                    return new FilterResults();
                 }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = suggestions;
-                filterResults.count = suggestions.size();
-                return filterResults;
-            } else {
-                return new FilterResults();
             }
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            @SuppressWarnings("unchecked") ArrayList<TagStat> filteredList = (ArrayList<TagStat>) results.values;
-            if (results != null && results.count > 0) {
-                clear();
-                for (TagStat c : filteredList) {
-                    add(c);
+            if (results.values == null)
+                return;
+
+            synchronized (results.values) {
+                ArrayList<TagStat> filteredList = (ArrayList<TagStat>) results.values;
+                if (results.count > 0) {
+                    clear();
+                    for (TagStat c : filteredList) {
+                        add(c);
+                    }
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
             }
         }
     };
