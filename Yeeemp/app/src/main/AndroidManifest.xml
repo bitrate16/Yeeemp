@@ -3,9 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,10 +14,6 @@
         android:theme="@style/Theme.Yeeemp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.EventEditActivity"
-            android:theme="@style/Theme.Yeeemp.Red"
-            android:exported="false" />
-        <activity
             android:name=".ui.activity.QueueListActivity"
             android:exported="true"
             android:theme="@style/Theme.Yeeemp.Green">
@@ -31,9 +24,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activity.EventEditActivity"
+            android:theme="@style/Theme.Yeeemp.Red"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.EventListActivity"
             android:exported="false"
-            android:theme="@style/Theme.Yeeemp.Blue"></activity>
+            android:theme="@style/Theme.Yeeemp.Blue" />
     </application>
 
 </manifest>
