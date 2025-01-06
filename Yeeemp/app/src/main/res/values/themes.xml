@@ -1,24 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Yeeemp" parent="ThemeOverlay.MaterialComponents.Dark">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/pegasko_white</item>
-        <item name="colorPrimaryVariant">@color/pegasko_light</item>
-        <item name="colorOnPrimary">@color/pegasko_white</item>
-
-        <!-- Secondary brand color. -->
-        <item name="colorPrimary">@color/pegasko_white</item>
-        <item name="colorPrimaryVariant">@color/pegasko_light</item>
-        <item name="colorOnPrimary">@color/pegasko_white</item>
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/pegasko_dark</item>
-        <item name="statusBarBackground">@color/pegasko_dark</item>
-        <item name="statusBarForeground">@color/pegasko_dark</item>
-    </style>
-
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Yeeemp" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.Yeeemp" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pegasko_white</item>
         <item name="colorPrimaryVariant">@color/pegasko_light</item>
@@ -36,7 +18,7 @@
     </style>
 
     <!-- Green application theme. -->
-    <style name="Base.Theme.Yeeemp.Green" parent="Base.Theme.Yeeemp">
+    <style name="Theme.Yeeemp.Green" parent="Theme.Yeeemp">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pegasko_green</item>
         <item name="colorPrimaryVariant">@color/pegasko_dark_green</item>
@@ -46,15 +28,10 @@
         <item name="colorSecondary">@color/pegasko_green</item>
         <item name="colorSecondaryVariant">@color/pegasko_dark_green</item>
         <item name="colorOnSecondary">@color/pegasko_dark_green</item>
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/pegasko_dark</item>
-        <item name="statusBarBackground">@color/pegasko_dark</item>
-        <item name="statusBarForeground">@color/pegasko_dark</item>
     </style>
 
     <!-- Blue application theme. -->
-    <style name="Base.Theme.Yeeemp.Blue" parent="Base.Theme.Yeeemp">
+    <style name="Theme.Yeeemp.Blue" parent="Theme.Yeeemp">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pegasko_blue</item>
         <item name="colorPrimaryVariant">@color/pegasko_dark_blue</item>
@@ -64,15 +41,10 @@
         <item name="colorSecondary">@color/pegasko_blue</item>
         <item name="colorSecondaryVariant">@color/pegasko_dark_blue</item>
         <item name="colorOnSecondary">@color/pegasko_dark_blue</item>
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/pegasko_dark</item>
-        <item name="statusBarBackground">@color/pegasko_dark</item>
-        <item name="statusBarForeground">@color/pegasko_dark</item>
     </style>
 
     <!-- Red application theme. -->
-    <style name="Base.Theme.Yeeemp.Red" parent="Base.Theme.Yeeemp">
+    <style name="Theme.Yeeemp.Red" parent="Theme.Yeeemp">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pegasko_red</item>
         <item name="colorPrimaryVariant">@color/pegasko_dark_red</item>
@@ -82,11 +54,6 @@
         <item name="colorSecondary">@color/pegasko_red</item>
         <item name="colorSecondaryVariant">@color/pegasko_dark_red</item>
         <item name="colorOnSecondary">@color/pegasko_dark_red</item>
-
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/pegasko_dark</item>
-        <item name="statusBarBackground">@color/pegasko_dark</item>
-        <item name="statusBarForeground">@color/pegasko_dark</item>
     </style>
 
 </resources>

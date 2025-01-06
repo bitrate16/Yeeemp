@@ -47,3 +47,6 @@ captures/
 hs_err_pid*
 
 *.idea*
+
+# Build metadata
+output-metadata.json
