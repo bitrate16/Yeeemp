@@ -64,7 +64,7 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
             popupMenu.setOnMenuItemClickListener((MenuItem menuItem) -> {
                 if (menuItem.getItemId() == R.id.queue_list_item_action_menu_delete) {
                     new AlertDialog.Builder(view.getContext()).setTitle("Delete queue").setMessage(
-                        "Are you sure you want to delete this queue?").setPositiveButton(
+                        "Are you sure you want to delete " + queues[position].getName() + "?").setPositiveButton(
                         android.R.string.yes,
                         (dialog, which) -> {
                             Wrapper.getQueueMaker().delete(
@@ -75,7 +75,7 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
                     ).setNegativeButton(android.R.string.no, null).setIcon(android.R.drawable.ic_dialog_alert).show();
                 } else if (menuItem.getItemId() == R.id.queue_list_item_action_menu_rename) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setTitle("Title");
+                    builder.setTitle("New name");
 
                     final EditText input = new EditText(view.getContext());
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
