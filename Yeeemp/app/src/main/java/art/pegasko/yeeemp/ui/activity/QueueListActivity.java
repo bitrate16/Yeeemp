@@ -16,44 +16,37 @@
 
 package art.pegasko.yeeemp.ui.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.File;
-import java.security.Permission;
+import java.util.Objects;
 
 import art.pegasko.yeeemp.base.Queue;
+import art.pegasko.yeeemp.base.QueueOrder;
 import art.pegasko.yeeemp.base.Wrapper;
 import art.pegasko.yeeemp.databinding.ActivityQueueListBinding;
 
 import art.pegasko.yeeemp.R;
-import art.pegasko.yeeemp.impl.DBWrapper;
 import art.pegasko.yeeemp.impl.DataUtils;
 import art.pegasko.yeeemp.impl.Init;
 
@@ -62,6 +55,9 @@ public class QueueListActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CREATE_FILE = 37;
     private static final int REQUEST_CODE_OPEN_FILE = 19;
+
+    private static String PREFS_UI_QUEUE_ORDER = "ui-queue-order";
+    private static String PREFS_UI_QUEUE_ORDER_DEFAULT = "id";
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityQueueListBinding binding;
@@ -72,6 +68,21 @@ public class QueueListActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             queueListAdapter.reloadItems();
         });
+    }
+
+    private CharSequence getQueueOrderDisplayString(@Nullable QueueOrder.Order order) {
+        if (order == null) {
+            throw new RuntimeException("Order is null");
+        }
+
+        switch (order) {
+            case ID:
+                return "created";
+            case NAME:
+                return "name";
+            default:
+                throw new RuntimeException("Not implemented for " + order);
+        }
     }
 
     @Override
@@ -86,9 +97,59 @@ public class QueueListActivity extends AppCompatActivity {
 
         /* Toolbar menu */
         binding.toolbar.inflateMenu(R.menu.queue_list_toolbar_menu);
+
         // TODO: Better import / export / delete logic
         binding.toolbar.setOnMenuItemClickListener((MenuItem item) -> {
-            if (item.getItemId() == R.id.queue_list_toolbar_menu_export) {
+            if (item.getItemId() == R.id.queue_list_toolbar_menu_order) {
+                /* Get some options */
+                SharedPreferences prefs = this.getApplicationContext().getSharedPreferences(Common.PREFS_NAME, MODE_PRIVATE);
+                QueueOrder.Order order = QueueOrder.orderFromString(prefs.getString(PREFS_UI_QUEUE_ORDER, PREFS_UI_QUEUE_ORDER_DEFAULT));
+
+                /* Construct options */
+                QueueOrder.Order[] values = QueueOrder.Order.class.getEnumConstants();
+                if (values == null) {
+                    // How did we get here?
+                    throw new RuntimeException("QueueOrder.Order.class.getEnumConstants() is Empty");
+                }
+                CharSequence[] choices = new CharSequence[values.length];
+                int currentSelection = -1;
+
+                for (int i = 0; i < values.length; ++i) {
+                    choices[i] = this.getQueueOrderDisplayString(values[i]);
+                    if (values[i] == order) {
+                        currentSelection = i;
+                    }
+                }
+
+                /* Build dialog */
+                AlertDialog.Builder builder = new AlertDialog.Builder(QueueListActivity.this);
+                builder.setTitle("Order by ..");
+
+                builder.setSingleChoiceItems(
+                    choices,
+                    currentSelection,
+                    (dialog, which) -> {
+                        QueueOrder.Order newOrder = values[which];
+
+                        // Save option
+                        prefs.edit().putString(PREFS_UI_QUEUE_ORDER, QueueOrder.orderToString(newOrder)).apply();
+
+                        // Apply
+                        QueueListActivity.this.invalidateOptionsMenu();
+                        queueListAdapter.setOrder(newOrder);
+                        runOnUiThread(() -> {
+                            queueListAdapter.reloadItems();
+                        });
+
+                        // Close
+                        dialog.dismiss();
+                    }
+                );
+
+                builder.show();
+
+                return true;
+            } if (item.getItemId() == R.id.queue_list_toolbar_menu_export) {
                 Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                 intent.setType("*/*");
                 intent.putExtra(Intent.EXTRA_TITLE, "export_" + DataUtils.formatTs(System.currentTimeMillis()) + ".db");
@@ -140,8 +201,13 @@ public class QueueListActivity extends AppCompatActivity {
             return false;
         });
 
+        /* Get some options */
+        SharedPreferences prefs = this.getApplicationContext().getSharedPreferences(Common.PREFS_NAME, MODE_PRIVATE);
+        QueueOrder.Order order = QueueOrder.orderFromString(prefs.getString(PREFS_UI_QUEUE_ORDER, PREFS_UI_QUEUE_ORDER_DEFAULT));
+
         /* Queue list */
         queueListAdapter = new QueueRecyclerViewAdapter();
+        queueListAdapter.setOrder(order);
         queueList = findViewById(R.id.content_queue_list__list);
         queueList.setLayoutManager(new LinearLayoutManager(this));
         queueList.setAdapter(queueListAdapter);
@@ -275,6 +341,16 @@ public class QueueListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.queue_list_toolbar_menu, menu);
+
+        /* Get some options */
+        SharedPreferences prefs = this.getApplicationContext().getSharedPreferences(Common.PREFS_NAME, MODE_PRIVATE);
+        QueueOrder.Order order = QueueOrder.orderFromString(prefs.getString(PREFS_UI_QUEUE_ORDER, PREFS_UI_QUEUE_ORDER_DEFAULT));
+
+        // Set item text based on sort mode
+        MenuItem item = menu.findItem(R.id.queue_list_toolbar_menu_order);
+        item.setTitle(Objects.requireNonNull(item.getTitle()).toString() + ": " + getQueueOrderDisplayString(order).toString());
+
+
         return true;
     }
 

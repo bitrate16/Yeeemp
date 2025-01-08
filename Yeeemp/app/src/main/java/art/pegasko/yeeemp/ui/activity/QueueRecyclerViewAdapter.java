@@ -17,16 +17,9 @@
 package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.text.InputType;
-import android.util.Log;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +31,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import art.pegasko.yeeemp.R;
-import art.pegasko.yeeemp.base.Event;
 import art.pegasko.yeeemp.base.Queue;
-import art.pegasko.yeeemp.base.Tag;
+import art.pegasko.yeeemp.base.QueueOrder;
 import art.pegasko.yeeemp.base.Wrapper;
 import art.pegasko.yeeemp.databinding.QueueListItemBinding;
 
@@ -48,6 +40,8 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
     public static final String TAG = QueueRecyclerViewAdapter.class.getSimpleName();
 
     private Queue[] queues;
+
+    private QueueOrder.Order order;
 
     @NonNull
     @Override
@@ -150,7 +144,11 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
     }
 
     public void reloadItems() {
-        this.queues = Wrapper.getQueueMaker().list();
+        this.queues = Wrapper.getQueueMaker().list(this.order);
         this.notifyDataSetChanged();
+    }
+
+    public void setOrder(QueueOrder.Order order) {
+        this.order = order;
     }
 }

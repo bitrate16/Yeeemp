@@ -23,7 +23,7 @@ public interface Queue {
 
     void setName(String name);
 
-    Event[] getEvents();
+    Event[] getEvents(EventOrder.Order order);
 
     int getEventCount();
 

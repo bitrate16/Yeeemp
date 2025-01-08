@@ -23,9 +23,10 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import art.pegasko.yeeemp.base.Event;
-import art.pegasko.yeeemp.base.EventMaker;
+import art.pegasko.yeeemp.base.EventOrder;
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.QueueMaker;
+import art.pegasko.yeeemp.base.QueueOrder;
 
 public class QueueMakerImpl implements QueueMaker {
     public static final String TAG = EventMakerImpl.class.getSimpleName();
@@ -40,16 +41,19 @@ public class QueueMakerImpl implements QueueMaker {
     public Queue getById(int id) {
         synchronized (this.db) {
             try {
-                Cursor cursor = db.query("queue",
-                                         new String[] { "1" },
-                                         "id = ?",
-                                         new String[] { Integer.toString(id) },
-                                         null,
-                                         null,
-                                         null
+                Cursor cursor = db.query(
+                    "queue",
+                    new String[] { "1" },
+                    "id = ?",
+                    new String[] { Integer.toString(id) },
+                    null,
+                    null,
+                    null
                 );
 
-                if (Utils.findResult(cursor)) return new QueueImpl(this.db, id);
+                if (Utils.findResultAndClose(cursor)) {
+                    return new QueueImpl(this.db, id);
+                }
 
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);
@@ -76,9 +80,22 @@ public class QueueMakerImpl implements QueueMaker {
     }
 
     @Override
-    public Queue[] list() {
+    public Queue[] list(QueueOrder.Order order) {
         synchronized (this.db) {
-            Cursor cursor = db.query("queue", new String[] { "id" }, null, null, null, null, null);
+            Cursor cursor = db.query(
+                "queue",
+                new String[] { "id" },
+                null,
+                null,
+                null,
+                null,
+                ( order == QueueOrder.Order.ID ?
+                    "rowid" :
+                ( order == QueueOrder.Order.NAME ?
+                    "name" :
+                    null
+                ))
+            );
 
             if (cursor == null) {
                 return new Queue[0];
@@ -90,6 +107,7 @@ public class QueueMakerImpl implements QueueMaker {
             while (cursor.moveToNext()) {
                 queues[index++] = new QueueImpl(this.db, cursor.getInt(0));
             }
+            cursor.close();
 
             return queues;
         }
@@ -101,7 +119,8 @@ public class QueueMakerImpl implements QueueMaker {
 
             // Drop events
             try {
-                for (Event event : queue.getEvents()) {
+                // TODO: Foreign key for cascade delete
+                for (Event event : queue.getEvents(EventOrder.Order.ID_DESC)) {
                     db.delete("event", "id = ?", new String[] { Integer.toString(event.getId()) });
                 }
             } catch (SQLiteException e) {

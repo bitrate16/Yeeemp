@@ -49,7 +49,9 @@ public class EventMakerImpl implements EventMaker {
                     null
                 );
 
-                if (Utils.findResult(cursor)) return new EventImpl(this.db, id);
+                if (Utils.findResultAndClose(cursor)) {
+                    return new EventImpl(this.db, id);
+                }
 
             } catch (SQLiteException e) {
                 Log.wtf(TAG, e);

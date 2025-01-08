@@ -47,10 +47,12 @@ public class TagMakerImpl implements TagMaker {
                 null,
                 null
             );
-            if (Utils.findResult(cursor)) {
+
+            int id = Utils.getIntAndClose(cursor, -1);
+            if (id != -1) {
                 return new TagImpl(
                     db,
-                    cursor.getInt(0)
+                    id
                 );
             }
         } catch (SQLiteException e) {

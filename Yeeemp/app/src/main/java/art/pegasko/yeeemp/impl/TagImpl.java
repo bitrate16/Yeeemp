@@ -57,8 +57,9 @@ public class TagImpl implements Tag {
                 null
             );
 
-            if (Utils.findResult(cursor)) {
-                return this._cached_name = cursor.getString(0);
+            String result = Utils.getStringAndClose(cursor, null);
+            if (result != null) {
+                return this._cached_name = result;
             }
 
             return null;

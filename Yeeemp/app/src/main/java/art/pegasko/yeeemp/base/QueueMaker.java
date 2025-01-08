@@ -23,5 +23,5 @@ public interface QueueMaker {
 
     void delete(Queue queue);
 
-    Queue[] list();
+    Queue[] list(QueueOrder.Order order);
 }

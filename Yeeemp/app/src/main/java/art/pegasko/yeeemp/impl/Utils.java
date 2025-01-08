@@ -20,9 +20,85 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class Utils {
-    public static boolean findResult(Cursor cursor) {
-        if (cursor == null) return false;
-        cursor.moveToFirst();
-        return cursor.getCount() != 0;
+    public static boolean findResultAndClose(Cursor cursor) {
+        if (cursor == null)
+            return false;
+
+        boolean hasResult = cursor.moveToFirst();
+        if (!hasResult) {
+            cursor.close();
+            return false;
+        }
+
+        boolean result = cursor.getCount() != 0;
+        cursor.close();
+
+        return result;
+    }
+
+    public static int getIntAndClose(Cursor cursor, int def) {
+        if (cursor == null)
+            return def;
+
+        boolean hasResult = cursor.moveToFirst();
+        if (!hasResult) {
+            cursor.close();
+            return def;
+        }
+
+        if (cursor.getCount() == 0) {
+            cursor.close();
+
+            return def;
+        }
+
+        int result = cursor.getInt(0);
+        cursor.close();
+
+        return result;
+    }
+
+    public static long getLongAndClose(Cursor cursor, long def) {
+        if (cursor == null)
+            return def;
+
+        boolean hasResult = cursor.moveToFirst();
+        if (!hasResult) {
+            cursor.close();
+            return def;
+        }
+
+        if (cursor.getCount() == 0) {
+            cursor.close();
+
+            return def;
+        }
+
+        long result = cursor.getLong(0);
+        cursor.close();
+
+        return result;
+    }
+
+    public static String getStringAndClose(Cursor cursor, String def) {
+        if (cursor == null)
+            return def;
+
+        boolean hasResult = cursor.moveToFirst();
+        if (!hasResult) {
+            cursor.close();
+            return def;
+        }
+
+        if (cursor.getCount() == 0) {
+            cursor.close();
+
+            return def;
+        }
+
+        String result = cursor.getString(0);
+        cursor.close();
+
+        return result;
     }
 }

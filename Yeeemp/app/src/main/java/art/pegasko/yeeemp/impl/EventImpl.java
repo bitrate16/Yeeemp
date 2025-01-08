@@ -57,11 +57,7 @@ public class EventImpl implements Event {
                 null
             );
 
-            if (Utils.findResult(cursor)) {
-                return cursor.getLong(0);
-            }
-
-            return 0;
+            return Utils.getLongAndClose(cursor, 0);
         }
     }
 
@@ -70,7 +66,13 @@ public class EventImpl implements Event {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
             cv.put("timestamp", timestamp);
-            db.update("event", cv, "id = ?", new String[] { Integer.toString(this.getId()) });
+
+            db.update(
+                "event",
+                cv,
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) }
+            );
         }
     }
 
@@ -87,11 +89,7 @@ public class EventImpl implements Event {
                 null
             );
 
-            if (Utils.findResult(cursor)) {
-                return cursor.getString(0);
-            }
-
-            return null;
+            return Utils.getStringAndClose(cursor, null);
         }
     }
 
@@ -100,7 +98,13 @@ public class EventImpl implements Event {
         synchronized (this.db) {
             ContentValues cv = new ContentValues();
             cv.put("comment", comment);
-            db.update("event", cv, "id = ?", new String[] { Integer.toString(this.getId()) });
+
+            db.update(
+                "event",
+                cv,
+                "id = ?",
+                new String[] { Integer.toString(this.getId()) }
+            );
         }
     }
 
@@ -109,11 +113,19 @@ public class EventImpl implements Event {
      */
     protected boolean hasTag(Tag tag) {
         synchronized (this.db) {
-            Cursor cursor = db.query("event_tag", new String[] { "1" }, "event_id = ? AND tag_id = ?", new String[] {
-                Integer.toString(this.getId()), Integer.toString(tag.getId())
-            }, null, null, null);
+            Cursor cursor = db.query(
+                "event_tag",
+                new String[] { "1" },
+                "event_id = ? AND tag_id = ?",
+                new String[] {
+                    Integer.toString(this.getId()), Integer.toString(tag.getId())
+                },
+                null,
+                null,
+                null
+            );
 
-            return Utils.findResult(cursor);
+            return Utils.findResultAndClose(cursor);
         }
     }
 
@@ -195,6 +207,7 @@ public class EventImpl implements Event {
             while (cursor.moveToNext()) {
                 tags[index++] = new TagImpl(this.db, cursor.getInt(0));
             }
+            cursor.close();
 
             return this.cachedTags = tags;
         }

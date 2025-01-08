@@ -18,11 +18,9 @@ package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,12 +32,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import art.pegasko.yeeemp.R;
 import art.pegasko.yeeemp.base.Event;
+import art.pegasko.yeeemp.base.EventOrder;
 import art.pegasko.yeeemp.base.Queue;
 import art.pegasko.yeeemp.base.Tag;
 import art.pegasko.yeeemp.base.Wrapper;
@@ -50,6 +46,8 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
 
     private final Queue queue;
     private Event[] events;
+
+    private EventOrder.Order order;
 
     public EventRecyclerViewAdapter(Queue queue) {
         super();
@@ -155,10 +153,14 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
     public void reloadItems() {
         Handler handler = new Handler(Looper.getMainLooper());
         Executors.newSingleThreadExecutor().execute(() -> {
-            this.events = this.queue.getEvents();
+            this.events = this.queue.getEvents(this.order);
             handler.post(() -> {
                 this.notifyDataSetChanged();
             });
         });
+    }
+
+    public void setOrder(EventOrder.Order order) {
+        this.order = order;
     }
 }
