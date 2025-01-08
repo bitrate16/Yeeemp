@@ -16,6 +16,13 @@
 
 package art.pegasko.yeeemp.ui.activity;
 
+import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.view.HapticFeedbackConstants;
+import android.view.View;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,5 +61,30 @@ public class Utils {
         if (o == null)
             return 0;
         return Math.abs(o.hashCode()) & ((1 << 16) - 1);
+    }
+
+    public static void hapticTick(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Vibration muted, do nothing
+            if (!view.isHapticFeedbackEnabled()) {
+                return;
+            }
+
+            // Success only if haptics available and worked
+            if (view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)) {
+                return;
+            }
+        }
+
+        // Fallback to basic vibration
+        Vibrator vibrator = (Vibrator) view.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            // TODO: Respect silent mode
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(10, 50));
+            } else {
+                vibrator.vibrate(10);
+            }
+        }
     }
 }

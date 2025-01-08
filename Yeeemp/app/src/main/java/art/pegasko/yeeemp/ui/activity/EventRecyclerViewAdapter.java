@@ -121,6 +121,8 @@ class EventRecyclerViewAdapter extends RecyclerView.Adapter<EventRecyclerViewAda
             return true;
         });
         viewHolder.getBinding().eventListItemItem.setOnClickListener((View view) -> {
+            Utils.hapticTick(view);
+
             Bundle extra = new Bundle();
             extra.putInt("event_id", this.events[position].getId());
             extra.putInt("queue_id", this.queue.getId());

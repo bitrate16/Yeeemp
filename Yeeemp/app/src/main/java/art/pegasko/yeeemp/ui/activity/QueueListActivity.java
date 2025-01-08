@@ -156,6 +156,8 @@ public class QueueListActivity extends AppCompatActivity {
             return true;
         });
         binding.fab.setOnClickListener(view -> {
+            Utils.hapticTick(view);
+
             Queue q = Wrapper.getQueueMaker().create();
             q.setName("New Queue");
 

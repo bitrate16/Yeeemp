@@ -124,6 +124,8 @@ public class EventListActivity extends AppCompatActivity {
             return true;
         });
         binding.fab.setOnClickListener(view -> {
+            Utils.hapticTick(view);
+
             Bundle extra = new Bundle();
             extra.putInt("queue_id", this.queue.getId());
 

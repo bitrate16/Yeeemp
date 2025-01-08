@@ -17,11 +17,16 @@
 package art.pegasko.yeeemp.ui.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.text.InputType;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +105,8 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
             return true;
         });
         viewHolder.getBinding().queueListItemItem.setOnClickListener((View view) -> {
+            Utils.hapticTick(view);
+
             Bundle extra = new Bundle();
             extra.putInt("queue_id", queues[position].getId());
 
@@ -112,6 +119,8 @@ class QueueRecyclerViewAdapter extends RecyclerView.Adapter<QueueRecyclerViewAda
         viewHolder.getBinding().queueListItemStats.setText(Integer.toString(queues[position].getEventCount()));
 
         viewHolder.getBinding().queueListItemPlus.setOnClickListener((View view) -> {
+            Utils.hapticTick(view);
+
             Bundle extra = new Bundle();
             extra.putInt("queue_id", this.queues[position].getId());
 

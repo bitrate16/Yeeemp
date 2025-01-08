@@ -209,6 +209,8 @@ public class EventEditActivity extends AppCompatActivity {
             return true;
         });
         binding.fab.setOnClickListener(view -> {
+            Utils.hapticTick(view);
+
             // Finalize values
             this.eventContainer.comment = this.binding.eventEditContent.eventEditComment.getText().toString().trim();
 
