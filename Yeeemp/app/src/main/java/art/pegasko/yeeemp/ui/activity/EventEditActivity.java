@@ -135,7 +135,7 @@ public class EventEditActivity extends AppCompatActivity {
         binding = ActivityEventEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " / " + (event == null ? "Create" : "Edit") + " Event");
+        getSupportActionBar().setTitle(queue.getName() + " / " + (event == null ? "Create" : "Edit") + " Event");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
