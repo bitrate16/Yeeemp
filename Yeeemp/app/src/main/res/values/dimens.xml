@@ -1,0 +1,65 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="queue_list_item_size">80dp</dimen>
+    <dimen name="queue_list_item_padding">8dp</dimen>
+
+    <dimen name="queue_list_item_main_padding">8dp</dimen>
+
+    <dimen name="queue_list_item_title_text">24sp</dimen>
+    <dimen name="queue_list_item_title_margin">4dp</dimen>
+
+    <dimen name="queue_list_item_subtitle">12sp</dimen>
+    <dimen name="queue_list_item_subtitle_margin">2dp</dimen>
+
+    <dimen name="queue_list_item_plus_text">32sp</dimen>
+    <dimen name="queue_list_item_plus_width">80dp</dimen>
+
+    <dimen name="queue_list_item_content_margin">2dp</dimen>
+
+    <dimen name="event_list_item_timestamp_text">16sp</dimen>
+    <dimen name="event_list_item_timestamp_margin">4dp</dimen>
+
+    <dimen name="event_list_item_comment_text">12sp</dimen>
+    <dimen name="event_list_item_comment_margin">4dp</dimen>
+    <dimen name="event_list_item_comment_padding">4dp</dimen>
+
+    <dimen name="event_list_item_plus">32sp</dimen>
+    <dimen name="event_list_item_plus_width">80dp</dimen>
+
+    <dimen name="event_list_item_tags_margin">0dp</dimen>
+    <dimen name="event_list_item_tags_padding">0dp</dimen>
+
+    <dimen name="event_list_item_tag_padding">4dp</dimen>
+    <dimen name="event_list_item_tag_margin">0dp</dimen>
+
+    <dimen name="event_list_item_content_margin">2dp</dimen>
+
+    <dimen name="box_radius">2dp</dimen>
+    <dimen name="box_stroke">2dp</dimen>
+
+    <dimen name="tag_divider_width">4dp</dimen>
+    <dimen name="tag_divider_height">4dp</dimen>
+
+    <dimen name="event_edit_box_margin">2dp</dimen>
+
+    <dimen name="event_edit_hint_margin">0dp</dimen>
+    <dimen name="event_edit_hint_padding_left">2dp</dimen>
+    <dimen name="event_edit_hint_text">16sp</dimen>
+
+    <dimen name="event_edit_timestamp_margin">8dp</dimen>
+    <dimen name="event_edit_timestamp_padding">4dp</dimen>
+    <dimen name="event_edit_timestamp_text">24sp</dimen>
+
+    <dimen name="event_edit_comment_margin">8dp</dimen>
+    <dimen name="event_edit_comment_padding">4dp</dimen>
+    <dimen name="event_edit_comment_text">24sp</dimen>
+
+    <dimen name="event_edit_tags_margin">8dp</dimen>
+    <dimen name="event_edit_tags_padding">4dp</dimen>
+    <dimen name="event_edit_tags_text">24sp</dimen>
+
+    <dimen name="event_edit_tags_suggest_padding">4dp</dimen>
+    <dimen name="event_edit_tags_suggest_margin">8dp</dimen>
+    <dimen name="event_edit_tags_suggest_text">24sp</dimen>
+</resources>

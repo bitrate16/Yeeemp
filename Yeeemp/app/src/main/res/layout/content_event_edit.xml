@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/pegasko_black"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pegasko_black"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/event_edit_container_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/event_edit_box_margin"
+                android:background="@drawable/box_red"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_hint_margin"
+                    android:paddingLeft="@dimen/event_edit_hint_padding_left"
+                    android:text="Time"
+                    android:textColor="@color/pegasko_black"
+                    android:textSize="@dimen/event_edit_hint_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/event_edit_timestamp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_timestamp_margin"
+                    android:background="@drawable/box_black"
+                    android:gravity="center"
+                    android:padding="@dimen/event_edit_timestamp_padding"
+                    android:text="Timestamp"
+                    android:textColor="@color/pegasko_white"
+                    android:textSize="@dimen/event_edit_timestamp_text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_edit_container_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/event_edit_box_margin"
+                android:background="@drawable/box_red"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_hint_margin"
+                    android:paddingLeft="@dimen/event_edit_hint_padding_left"
+                    android:text="Comment"
+                    android:textColor="@color/pegasko_black"
+                    android:textSize="@dimen/event_edit_hint_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/event_edit_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_comment_margin"
+                    android:background="@drawable/box_black"
+                    android:cursorVisible="true"
+                    android:gravity="start|left"
+                    android:hint="comment"
+                    android:inputType="textMultiLine"
+                    android:padding="@dimen/event_edit_comment_padding"
+                    android:scrollbars="vertical"
+                    android:singleLine="false"
+                    android:textColor="@color/pegasko_white"
+                    android:textSize="@dimen/event_edit_comment_text">
+
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_edit_container_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/event_edit_box_margin"
+                android:background="@drawable/box_red"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_hint_margin"
+                    android:paddingLeft="@dimen/event_edit_hint_padding_left"
+                    android:text="Tags"
+                    android:textColor="@color/pegasko_black"
+                    android:textSize="@dimen/event_edit_hint_text"
+                    android:textStyle="bold" />
+
+                <MultiAutoCompleteTextView
+                    android:id="@+id/event_edit_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/event_edit_tags_suggest_margin"
+                    android:background="@drawable/box_black"
+                    android:hint="tags"
+                    android:padding="@dimen/event_edit_tags_suggest_padding"
+                    android:textSize="@dimen/event_edit_tags_suggest_text">
+
+                </MultiAutoCompleteTextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/queue_list_item__item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/queue_list_item_content_margin"
+        android:layout_weight="1"
+        android:background="@color/pegasko_green"
+        android:gravity="center"
+        android:padding="@dimen/queue_list_item_main_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/queue_list_item__title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/queue_list_item_title_margin"
+                android:fontFamily="monospace"
+                android:text="TextView"
+                android:textAlignment="viewStart"
+                android:textColor="@color/pegasko_black"
+                android:textSize="@dimen/queue_list_item_title_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/queue_list_item__stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/queue_list_item_subtitle_margin"
+                android:fontFamily="monospace"
+                android:text="TextView"
+                android:textAlignment="viewStart"
+                android:textColor="@color/pegasko_black"
+                android:textSize="@dimen/queue_list_item_subtitle"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/queue_list_item__plus"
+        android:layout_width="@dimen/queue_list_item_plus_width"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/queue_list_item_content_margin"
+        android:background="@color/pegasko_green"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:text="+"
+            android:textAlignment="viewStart"
+            android:textColor="@color/pegasko_black"
+            android:textSize="@dimen/queue_list_item_plus_text"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

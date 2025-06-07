@@ -1,0 +1,59 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Yeeemp" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_white</item>
+        <item name="colorPrimaryVariant">@color/pegasko_light</item>
+        <item name="colorOnPrimary">@color/pegasko_light</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_white</item>
+        <item name="colorSecondaryVariant">@color/pegasko_light</item>
+        <item name="colorOnSecondary">@color/pegasko_light</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/pegasko_dark</item>
+        <item name="statusBarBackground">@color/pegasko_dark</item>
+        <item name="statusBarForeground">@color/pegasko_dark</item>
+    </style>
+
+    <!-- Green application theme. -->
+    <style name="Theme.Yeeemp.Green" parent="Theme.Yeeemp">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_green</item>
+        <item name="colorPrimaryVariant">@color/pegasko_dark_green</item>
+        <item name="colorOnPrimary">@color/pegasko_dark_green</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_green</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark_green</item>
+        <item name="colorOnSecondary">@color/pegasko_dark_green</item>
+    </style>
+
+    <!-- Blue application theme. -->
+    <style name="Theme.Yeeemp.Blue" parent="Theme.Yeeemp">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_blue</item>
+        <item name="colorPrimaryVariant">@color/pegasko_dark_blue</item>
+        <item name="colorOnPrimary">@color/pegasko_dark_blue</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_blue</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark_blue</item>
+        <item name="colorOnSecondary">@color/pegasko_dark_blue</item>
+    </style>
+
+    <!-- Red application theme. -->
+    <style name="Theme.Yeeemp.Red" parent="Theme.Yeeemp">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/pegasko_red</item>
+        <item name="colorPrimaryVariant">@color/pegasko_dark_red</item>
+        <item name="colorOnPrimary">@color/pegasko_dark_red</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/pegasko_red</item>
+        <item name="colorSecondaryVariant">@color/pegasko_dark_red</item>
+        <item name="colorOnSecondary">@color/pegasko_dark_red</item>
+    </style>
+
+</resources>

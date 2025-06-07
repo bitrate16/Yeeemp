@@ -1,0 +1,13 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners
+        android:topRightRadius="@dimen/box_radius"
+        android:topLeftRadius="@dimen/box_radius"
+        android:bottomRightRadius="@dimen/box_radius"
+        android:bottomLeftRadius="@dimen/box_radius" />
+
+    <solid
+        android:color="@color/pegasko_red" />
+
+</shape>

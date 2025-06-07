@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.Yeeemp.Green" parent="Theme.Yeeemp">
+        <item name="android:navigationBarColor">@color/pegasko_dark</item>
+        <item name="android:statusBarColor">@color/pegasko_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Yeeemp.Blue" parent="Theme.Yeeemp">
+        <item name="android:navigationBarColor">@color/pegasko_dark</item>
+        <item name="android:statusBarColor">@color/pegasko_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Yeeemp.Red" parent="Theme.Yeeemp">
+        <item name="android:navigationBarColor">@color/pegasko_dark</item>
+        <item name="android:statusBarColor">@color/pegasko_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

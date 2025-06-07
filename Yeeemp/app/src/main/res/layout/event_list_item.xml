@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/event_list_item__item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/queue_list_item_content_margin"
+        android:layout_weight="1"
+        android:background="@color/pegasko_blue"
+        android:gravity="center"
+        android:padding="@dimen/queue_list_item_main_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_list_item__timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/event_list_item_timestamp_margin"
+                android:fontFamily="monospace"
+                android:text="TextView"
+                android:textAlignment="viewStart"
+                android:textColor="@color/pegasko_white"
+                android:textSize="@dimen/event_list_item_timestamp_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/event_list_item__comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/event_list_item_comment_margin"
+                android:fontFamily="monospace"
+                android:text="TextView"
+                android:visibility="gone"
+                android:padding="@dimen/event_list_item_comment_padding"
+                android:textColor="@color/pegasko_white"
+                android:textSize="@dimen/event_list_item_comment_text"
+                android:background="@drawable/box_black"
+                android:textStyle="bold" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/event_list_item_tags"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/event_list_item_tags_margin"
+                android:padding="@dimen/event_list_item_tags_padding"
+                app:alignContent="flex_start"
+                app:alignItems="flex_start"
+                app:flexDirection="row"
+                app:flexWrap="wrap"
+                app:showDivider="beginning|middle"
+                app:dividerDrawable="@drawable/tag_divider"
+                app:justifyContent="flex_start" >
+
+            </com.google.android.flexbox.FlexboxLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

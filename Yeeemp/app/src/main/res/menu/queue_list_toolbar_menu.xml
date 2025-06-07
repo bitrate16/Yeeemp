@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/queue_list_toolbar_menu_order"
+        android:title="Order by" />
+
+    <item
+        android:id="@+id/queue_list_toolbar_menu_export"
+        android:title="Export" />
+
+    <item
+        android:id="@+id/queue_list_toolbar_menu_import"
+        android:title="Import" />
+
+    <item
+        android:id="@+id/queue_list_toolbar_menu_delete"
+        android:title="Delete all" />
+</menu>

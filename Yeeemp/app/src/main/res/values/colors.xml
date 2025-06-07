@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="pegasko_green">#FF76D767</color>
+    <color name="pegasko_red">#FFD76776</color>
+    <color name="pegasko_blue">#FF6776D7</color>
+    <color name="pegasko_dark_green">#FF66c757</color>
+    <color name="pegasko_dark_red">#FFc75766</color>
+    <color name="pegasko_dark_blue">#FF5766c7</color>
+    <color name="pegasko_black_green">#FF46a737</color>
+    <color name="pegasko_black_red">#FFa73746</color>
+    <color name="pegasko_black_blue">#FF3746a7</color>
+    <color name="pegasko_black">#FF141414</color>
+    <color name="pegasko_dark">#FF2e2e2e</color>
+    <color name="pegasko_white">#FFebebeb</color>
+    <color name="pegasko_light">#FFd1d1d1</color>
+</resources>
