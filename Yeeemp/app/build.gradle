@@ -10,8 +10,8 @@ android {
         applicationId "art.pegasko.yeeemp"
         minSdk 21
         targetSdk 34
-        versionCode 1007
-        versionName "1.007"
+        versionCode 1008
+        versionName "1.008"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
