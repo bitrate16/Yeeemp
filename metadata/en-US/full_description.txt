@@ -1,1 +1,9 @@
-Yeeemp - tag-based event tracker for everything
+Yeeemp — simple tag-based event tracker used to keep track of things you do and experience.
+
+You can make different queues for movies, books, meals, or whatever you want to track.
+
+Features:
+- Multiple Queues: Organize events into different queues.
+- Detailed Records: Add tags, descriptions, and a date for each event.
+- Privacy Focused: Your data stays on your device.
+- Backup & Restore: Easily save and restore your data from a backup file.
