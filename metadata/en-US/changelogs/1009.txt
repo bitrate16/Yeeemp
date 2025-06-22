@@ -1,0 +1,3 @@
+- Cleanup dependencies
+- Add proper description
+- Delete NOTICE
